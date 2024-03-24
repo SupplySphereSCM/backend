@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose'
+import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
@@ -35,16 +35,14 @@ import databaseConfig from './config/database.config';
       max: 10,
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL),
-    // MongooseModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   imports: [ConfigModule],
-    //   useFactory: (config: ConfigService) => ({
-    //     uri: config.getOrThrow<string>('database.url'),
-    //     useNewUrlParser: true,
-    //     useFindAndModify: false,
-    //   }),
-    // }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get('database.url'),
+        dbName: config.get('database.name'),
+      }),
+    }),
     UsersModule,
     AuthModule,
   ],

@@ -1,46 +1,36 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-
+import { Response } from 'express';
+import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+
+import { EmailLoginDto } from './dto/email-login-user.dto';
+import { EmailRegisterDto } from './dto/email-register-user.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  // @Get('google')
+  // async getGoogleAuthUrl(@Res() res: Response) {
+  //   const url = await this.authService.getGoogleAuthUrl();
+  //   res.redirect(url);
+  // }
+
+  // @Get('google/redirect')
+  // async googleAuthRedirect(@Query('code') code: string) {
+  //   const res = await this.authService.googleAuthRedirect(code);
+  //   return res;
+  // }
+
+  @Post('register')
+  async register(@Body() emailRegisterDto: EmailRegisterDto) {
+    return this.authService.register(emailRegisterDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('login')
+  async login(@Body() emailLoginDto: EmailLoginDto) {
+    return this.authService.login(emailLoginDto);
   }
 }
