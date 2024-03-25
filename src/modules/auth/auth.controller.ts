@@ -1,11 +1,12 @@
 import { Response } from 'express';
 import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 
 import { EmailLoginDto } from './dto/email-login-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
+import { ROLES } from '../users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('Authentication')

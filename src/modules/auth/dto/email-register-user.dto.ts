@@ -1,6 +1,11 @@
-import { IsEmail, IsEnum, IsString } from 'class-validator';
-
-import { ROLES } from 'src/modules/users/schemas/user.schema';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsEmail,
+  IsEnum,
+  IsString,
+} from 'class-validator';
+import { ROLES } from 'src/modules/users/entities/user.entity';
 
 export class EmailRegisterDto {
   @IsEmail()
@@ -9,7 +14,8 @@ export class EmailRegisterDto {
   @IsString()
   password: string;
 
-  // @IsString()
-  // @IsEnum(ROLES)
-  // role?: ROLES[];
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsEnum(ROLES, { each: true })
+  role?: ROLES[];
 }

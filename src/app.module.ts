@@ -1,10 +1,9 @@
 import * as path from 'path';
 import { Module } from '@nestjs/common';
-// import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
@@ -35,12 +34,18 @@ import databaseConfig from './config/database.config';
       max: 10,
       isGlobal: true,
     }),
-    MongooseModule.forRootAsync({
+    TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => ({
-        uri: config.get('database.url'),
-        dbName: config.get('database.name'),
+      useFactory: (config: ConfigService) => ({
+        type: config.get<'postgres'>('database.type'),
+        host: config.get<string>('database.host'),
+        port: config.get<number>('database.port'),
+        username: config.get<string>('database.username'),
+        password: config.get<string>('database.password'),
+        database: config.get<string>('database.name'),
+        synchronize: config.get<boolean>('database.synchronize'),
+        autoLoadEntities: true,
       }),
     }),
     UsersModule,

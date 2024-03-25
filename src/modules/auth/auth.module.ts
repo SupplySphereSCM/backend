@@ -16,8 +16,12 @@ import { UsersModule } from '../users/users.module';
     AuthService,
     {
       provide: JwtStrategy,
-      useFactory: (config: ConfigService, userService: UsersService) =>
-        new JwtStrategy(config.getOrThrow<string>('auth.secret'), userService),
+      useFactory: (config: ConfigService, userService: UsersService) => {
+        return new JwtStrategy(
+          config.getOrThrow<string>('auth.secret'),
+          userService,
+        );
+      },
       inject: [ConfigService, UsersService],
     },
   ],

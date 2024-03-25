@@ -1,19 +1,17 @@
 import * as bcrypt from 'bcrypt';
-import { google } from 'googleapis';
 import { JwtService } from '@nestjs/jwt';
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { instanceToPlain } from 'class-transformer';
 
 import { UsersService } from '../users/users.service';
 
-import { ROLES, User } from '../users/schemas/user.schema';
+import { ROLES, User } from 'src/modules/users/entities/user.entity';
+
 import { IGoogleUser } from 'src/common/interfaces/google';
 
 import { EmailLoginDto } from './dto/email-login-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +23,7 @@ export class AuthService {
 
   constructor(
     private userService: UsersService,
-    // private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService,
     // private readonly httpService: HttpService,
     // private readonly configService: ConfigService,
   ) {}
@@ -72,16 +70,46 @@ export class AuthService {
   //   });
   // }
 
-  async register(emailRegisterDto: EmailRegisterDto): Promise<User> {
+  async register(emailRegisterDto: EmailRegisterDto) {
+    if (await this.userService.findByEmail(emailRegisterDto.email)) {
+      throw new Error('Email already exists');
+    }
+
     const salt = await bcrypt.genSalt(11);
     const passwordHash = await bcrypt.hash(emailRegisterDto.password, salt);
 
     emailRegisterDto.password = passwordHash;
 
-    return this.userService.create(emailRegisterDto);
+    const user = await this.userService.create({
+      email: emailRegisterDto.email,
+      role: emailRegisterDto.role,
+      firstName: emailRegisterDto.email.split('@')[0],
+      password: emailRegisterDto.password,
+    });
+
+    return this.jwtService.signAsync(instanceToPlain(user), {
+      expiresIn: '1d',
+    });
   }
 
   async login(createAuthDto: EmailLoginDto) {
-    return 'This action logs a user in';
+    const user = await this.userService.findByEmail(createAuthDto.email);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isPasswordMatch = await bcrypt.compare(
+      createAuthDto.password,
+      user.password,
+    );
+
+    if (!isPasswordMatch) {
+      throw new Error('Invalid password');
+    }
+
+    return this.jwtService.signAsync(instanceToPlain(user), {
+      expiresIn: '1d',
+    });
   }
 }

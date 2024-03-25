@@ -1,6 +1,6 @@
-import type { UserDocument } from 'src/modules/users/schemas/user.schema';
+import { User } from 'src/modules/users/entities/user.entity';
 
 export type IJwtPayload = {
   iat: number;
   exp: number;
-} & UserDocument;
+} & User;
