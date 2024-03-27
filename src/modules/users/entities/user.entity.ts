@@ -1,9 +1,12 @@
+import { Device } from 'src/modules/devices/entities/device.entity';
+import { Service } from 'src/modules/service/entities/service.entity';
 import {
   Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 
 export enum ROLES {
@@ -56,6 +59,14 @@ export class User {
     nullable: true,
   })
   googleId: string;
+
+  @OneToMany(()=>Device,(device)=>device.user)
+  devices:Device[]
+
+  @OneToMany(()=>Service,(service)=>service.user)
+  services:Service[]
+ 
+
 
   @Column({
     type: 'enum',

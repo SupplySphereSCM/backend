@@ -1,9 +1,10 @@
+import { Device } from 'src/modules/devices/entities/device.entity';
 import {
     Entity,
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    PrimaryGeneratedColumn,
+    ManyToOne,
   } from 'typeorm';
   
   @Entity({
@@ -13,8 +14,15 @@ export class Transaction {
     @Column({})
     transaction_id:string;
 
-    @Column({})
-    device_id:string;
+    @ManyToOne(()=>Device,(device)=>device.device_id)
+    device:Device;
+
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
 
 }

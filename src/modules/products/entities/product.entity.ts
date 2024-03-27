@@ -3,7 +3,7 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    PrimaryGeneratedColumn,
+    
   } from 'typeorm';
   
   @Entity({
@@ -21,5 +21,11 @@ export class Product {
 
     @Column({})
     price:number;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
 }

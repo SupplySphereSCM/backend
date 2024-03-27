@@ -1,19 +1,31 @@
+import { Product } from 'src/modules/products/entities/product.entity';
+import { User } from 'src/modules/users/entities/user.entity';
 import {
     Entity,
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    PrimaryGeneratedColumn,
+    ManyToOne,
+    OneToOne,
+    JoinColumn,
   } from 'typeorm';
   
   @Entity({
     name: Service.name,
   })
 export class Service {
-    @Column({})
-    user_id:string;
 
-    @Column({})
-    Product_id:string;
+    @OneToOne(()=>Product)
+    @JoinColumn()
+    Product:Product;
+
+    @ManyToOne(()=> User,(user)=>user.id)
+    user:User
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
 }
