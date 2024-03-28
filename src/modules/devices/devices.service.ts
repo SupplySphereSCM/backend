@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Device } from './entities/device.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DevicesService {
-  create(createDeviceDto: CreateDeviceDto) {
-    return 'This action adds a new device';
+  constructor(
+    @InjectRepository(Device) private deviceRepository: Repository<Device>,
+  ) {}
+  async create(createDeviceDto: CreateDeviceDto) {
+    const newDevice = this.deviceRepository.create(createDeviceDto);
+    this.deviceRepository.save(newDevice);
+    return newDevice;
   }
 
-  findAll() {
-    return `This action returns all devices`;
+  async findAll() {
+    return this.deviceRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} device`;
+  async findOne(id: string) {
+    const device = await this.deviceRepository.findOne({
+      where: { device_id:id },
+    });
+    if (!device) {
+      throw new NotFoundException(`invalid device id`);
+    }
+    return device;
   }
 
-  update(id: number, updateDeviceDto: UpdateDeviceDto) {
-    return `This action updates a #${id} device`;
+  async update(id: string, updateDeviceDto: UpdateDeviceDto) {
+    const  device = await this.findOne(id);
+    Object.assign(device , updateDeviceDto);
+    return this.deviceRepository.save(device );
+    
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} device`;
+  async remove(id: string) {
+    const device = await this.findOne(id);
+    return this.deviceRepository.remove(device);
+    
   }
 }
