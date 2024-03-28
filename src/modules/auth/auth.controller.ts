@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { EmailLoginDto } from './dto/email-login-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
 import { ROLES } from '../users/entities/user.entity';
+import { RequestNonceDto } from './dto/request-nonce.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -33,5 +34,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() emailLoginDto: EmailLoginDto) {
     return this.authService.login(emailLoginDto);
+  }
+
+  @Post('request-nonce')
+  async generateNonce(@Body() noncerequestDto:RequestNonceDto){
+    return this.authService.generateNonce(noncerequestDto)
+
   }
 }

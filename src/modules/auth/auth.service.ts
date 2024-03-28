@@ -12,6 +12,9 @@ import { EmailLoginDto } from './dto/email-login-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
 import { instanceToPlain } from 'class-transformer';
+import { RequestNonceDto } from './dto/request-nonce.dto';
+import { verifySignatureDto } from './dto/verify-signature.dto';
+import { recoverAddress } from 'viem';
 
 @Injectable()
 export class AuthService {
@@ -111,5 +114,26 @@ export class AuthService {
     return this.jwtService.signAsync(instanceToPlain(user), {
       expiresIn: '1d',
     });
+  }
+  async generateNonce(requestnonce:RequestNonceDto){
+    const randomNumber = Math.random();
+    const Nonce = Math.floor(randomNumber * 100000);
+    return this.jwtService.signAsync({nonce:Nonce,walletAddress:requestnonce.walletAddress}, {
+      expiresIn: '1d',
+    });
+
+  }
+  async verifySignature(verifySignaturedto:verifySignatureDto){
+    const {hash,signature,jwt} = verifySignaturedto
+    const hashByteArray = Uint8Array.from(Buffer.from(hash, 'hex'));
+    const signatureByteArray = Uint8Array.from(Buffer.from(signature, 'hex'));
+    const address = await recoverAddress({hash:hashByteArray,signature:signatureByteArray})
+    const decodedJWT = this.jwtService.decode(jwt)
+    if(address === decodedJWT.walletAddress){
+      return 
+
+    }
+
+
   }
 }

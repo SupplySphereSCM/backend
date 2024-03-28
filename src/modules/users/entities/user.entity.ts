@@ -1,4 +1,4 @@
-import { Device } from 'src/modules/devices/entities/device.entity';
+
 import { Product } from 'src/modules/products/entities/product.entity';
 
 import {
@@ -61,8 +61,7 @@ export class User {
   })
   googleId: string;
 
-  @OneToMany(()=>Device,(device)=>device.user)
-  devices:Device[];
+  
 
   @OneToMany(()=>Product,(product)=>product.user)
   services:Product[];
