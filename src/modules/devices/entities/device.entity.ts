@@ -7,6 +7,7 @@ import {
     UpdateDateColumn,
     ManyToOne,
     OneToMany,
+    PrimaryColumn,
     
    
   } from 'typeorm';
@@ -15,13 +16,13 @@ import {
     name: Device.name,
   })
 export class Device {
-    @ManyToOne(()=>User,(user)=>user.id)
+    @ManyToOne(()=>User,(user)=>user)
     user:User;
 
     @OneToMany(()=>Transaction,(transaction)=>transaction.device)
     transaction:Transaction[]
 
-    @Column({})
+    @PrimaryColumn({})
     device_id:string;
 
     @CreateDateColumn()

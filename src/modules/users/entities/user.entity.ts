@@ -1,5 +1,6 @@
 import { Device } from 'src/modules/devices/entities/device.entity';
-import { Service } from 'src/modules/service/entities/service.entity';
+import { Product } from 'src/modules/products/entities/product.entity';
+
 import {
   Entity,
   Column,
@@ -61,10 +62,10 @@ export class User {
   googleId: string;
 
   @OneToMany(()=>Device,(device)=>device.user)
-  devices:Device[]
+  devices:Device[];
 
-  @OneToMany(()=>Service,(service)=>service.user)
-  services:Service[]
+  @OneToMany(()=>Product,(product)=>product.user)
+  services:Product[];
  
 
 

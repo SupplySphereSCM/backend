@@ -17,6 +17,15 @@ import authConfig from './config/auth.config';
 import mailConfig from './config/mail.config';
 import googleConfig from './config/google.config';
 import databaseConfig from './config/database.config';
+import { DevicesModule } from './modules/devices/devices.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
+
+import { ProductsModule } from './modules/products/products.module';
+import { Device } from './modules/devices/entities/device.entity';
+import { User } from './modules/users/entities/user.entity';
+import { Transaction } from './modules/transactions/entities/transaction.entity';
+import { Product } from './modules/products/entities/product.entity';
+
 
 // ----------------------------------------------------------
 
@@ -46,11 +55,16 @@ import databaseConfig from './config/database.config';
         password: config.get<string>('database.password'),
         database: config.get<string>('database.name'),
         synchronize: config.get<boolean>('database.synchronize'),
+        entities:[Device,User,Transaction,Product],
         autoLoadEntities: true,
       }),
     }),
     UsersModule,
     AuthModule,
+    DevicesModule,
+    TransactionsModule,
+    
+    ProductsModule
    
   ],
   controllers: [AppController],

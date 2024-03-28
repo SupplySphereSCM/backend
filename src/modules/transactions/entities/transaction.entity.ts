@@ -5,13 +5,14 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
+    PrimaryColumn,
   } from 'typeorm';
   
   @Entity({
     name: Transaction.name,
   })
 export class Transaction {
-    @Column({})
+    @PrimaryColumn({})
     transaction_id:string;
 
     @ManyToOne(()=>Device,(device)=>device.device_id)

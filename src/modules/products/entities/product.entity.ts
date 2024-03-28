@@ -1,8 +1,11 @@
+import { User } from 'src/modules/users/entities/user.entity';
 import {
     Entity,
     Column,
     CreateDateColumn,
     UpdateDateColumn,
+    PrimaryColumn,
+    ManyToOne,
     
   } from 'typeorm';
   
@@ -10,11 +13,14 @@ import {
     name: Product.name,
   })
 export class Product {
-    @Column({})
+  @PrimaryColumn({})
     product_id:string;
 
     @Column({})
     product_name:string;
+
+    @ManyToOne(()=>User,(user)=>user.services)
+    user:User;
 
     @Column({})
     quantity:number;
