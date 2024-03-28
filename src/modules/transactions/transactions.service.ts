@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Transaction } from './entities/transaction.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TransactionsService {
-  create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
+  constructor(
+    @InjectRepository(Transaction) private transactionRepository: Repository<Transaction>,
+  ) {}
+  async create(createTransactionDto: CreateTransactionDto) {
+    const newTransaction = this.transactionRepository.create(createTransactionDto);
+    this.transactionRepository.save(newTransaction);
+    return newTransaction;
   }
 
-  findAll() {
-    return `This action returns all transactions`;
+  async findAll() {
+    return this.transactionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transaction`;
+  async findOne(id: string) {
+    const transa = await this.transactionRepository.findOne({
+      where: { transaction_id: id },
+    });
+    if (!transa) {
+      throw new NotFoundException(`invalid transaction id`);
+    }
+    return transa;
+    
   }
 
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  async update(id: string, updateTransactionDto: UpdateTransactionDto) {
+    const user = await this.findOne(id);
+    Object.assign(user, updateTransactionDto);
+    return this.transactionRepository.save(user);
+    
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
+  async remove(id: string) {
+    const transac = await this.findOne(id);
+    return this.transactionRepository.remove(transac);
+    
   }
 }
