@@ -29,6 +29,9 @@ export class CreateUserDto {
   @IsEmpty()
   isEmailVerified?: boolean;
 
+  @IsString()
+  ethAddress?:string;
+
   @IsEmail()
   email: string;
 

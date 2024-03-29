@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { UsersService } from '../users/users.service';
 
@@ -130,9 +130,10 @@ export class AuthService {
     const address = await recoverAddress({hash:hashByteArray,signature:signatureByteArray})
     const decodedJWT = this.jwtService.decode(jwt)
     if(address === decodedJWT.walletAddress){
-      return 
+      return this.userService.findByEthAddress(address)
 
     }
+    throw new Error(`signature mismatch`)
 
 
   }

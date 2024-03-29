@@ -61,6 +61,11 @@ export class User {
   })
   googleId: string;
 
+  @Column({
+    nullable: true,
+  })
+  ethAddress:string;
+
   
 
   @OneToMany(()=>Product,(product)=>product.user)

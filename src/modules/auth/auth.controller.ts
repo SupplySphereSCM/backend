@@ -8,6 +8,7 @@ import { EmailLoginDto } from './dto/email-login-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
 import { ROLES } from '../users/entities/user.entity';
 import { RequestNonceDto } from './dto/request-nonce.dto';
+import { verifySignatureDto } from './dto/verify-signature.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -40,5 +41,9 @@ export class AuthController {
   async generateNonce(@Body() noncerequestDto:RequestNonceDto){
     return this.authService.generateNonce(noncerequestDto)
 
+  }
+  @Post('verify-signature')
+  async verifySignature(@Body() verifysignaturedto:verifySignatureDto){
+    return this.authService.verifySignature(verifysignaturedto)
   }
 }

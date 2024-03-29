@@ -33,6 +33,17 @@ export class UsersService {
     return user;
   }
 
+  async findByEthAddress(walletAddress:string){
+    const user = await this.userRepository.findOne({
+      where: { ethAddress:walletAddress },
+    });
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user;
+
+  }
+
   async findByEmail(email: string) {
     return await this.userRepository.findOne({ where: { email } });
   }
