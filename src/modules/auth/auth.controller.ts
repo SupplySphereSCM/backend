@@ -38,12 +38,11 @@ export class AuthController {
   }
 
   @Post('request-nonce')
-  async generateNonce(@Body() noncerequestDto:RequestNonceDto){
-    return this.authService.generateNonce(noncerequestDto)
-
+  async generateNonce(@Body() noncerequestDto: RequestNonceDto) {
+    return this.authService.generateNonce(noncerequestDto);
   }
   @Post('verify-signature')
-  async verifySignature(@Body() verifysignaturedto:verifySignatureDto){
-    return this.authService.verifySignature(verifysignaturedto)
+  async verifySignature(@Body() verifysignaturedto: verifySignatureDto) {
+    return this.authService.verifySignature(verifysignaturedto);
   }
 }

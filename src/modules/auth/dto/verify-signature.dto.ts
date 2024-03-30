@@ -1,13 +1,12 @@
-import { IsNumber, IsString } from "class-validator"
+import { IsNumber, IsString } from 'class-validator';
 
-export class verifySignatureDto{
-    @IsString()
-    jwt:string
+export class verifySignatureDto {
+  @IsString()
+  jwt: string;
 
-    @IsString()
-    hash:string
+  @IsString()
+  hash: string;
 
-    @IsString()
-    signature:string
-
+  @IsString()
+  signature: string;
 }

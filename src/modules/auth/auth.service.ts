@@ -115,26 +115,28 @@ export class AuthService {
       expiresIn: '1d',
     });
   }
-  async generateNonce(requestnonce:RequestNonceDto){
+  async generateNonce(requestnonce: RequestNonceDto) {
     const randomNumber = Math.random();
     const Nonce = Math.floor(randomNumber * 100000);
-    return this.jwtService.signAsync({nonce:Nonce,walletAddress:requestnonce.walletAddress}, {
-      expiresIn: '1d',
-    });
-
+    return this.jwtService.signAsync(
+      { nonce: Nonce, walletAddress: requestnonce.walletAddress },
+      {
+        expiresIn: '1d',
+      },
+    );
   }
-  async verifySignature(verifySignaturedto:verifySignatureDto){
-    const {hash,signature,jwt} = verifySignaturedto
+  async verifySignature(verifySignaturedto: verifySignatureDto) {
+    const { hash, signature, jwt } = verifySignaturedto;
     const hashByteArray = Uint8Array.from(Buffer.from(hash, 'hex'));
     const signatureByteArray = Uint8Array.from(Buffer.from(signature, 'hex'));
-    const address = await recoverAddress({hash:hashByteArray,signature:signatureByteArray})
-    const decodedJWT = this.jwtService.decode(jwt)
-    if(address === decodedJWT.walletAddress){
-      return this.userService.findByEthAddress(address)
-
+    const address = await recoverAddress({
+      hash: hashByteArray,
+      signature: signatureByteArray,
+    });
+    const decodedJWT = this.jwtService.decode(jwt);
+    if (address === decodedJWT.walletAddress) {
+      return this.userService.findByEthAddress(address);
     }
-    throw new Error(`signature mismatch`)
-
-
+    throw new Error(`signature mismatch`);
   }
 }

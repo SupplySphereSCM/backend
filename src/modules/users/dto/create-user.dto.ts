@@ -30,7 +30,7 @@ export class CreateUserDto {
   isEmailVerified?: boolean;
 
   @IsString()
-  ethAddress?:string;
+  ethAddress?: string;
 
   @IsEmail()
   email: string;

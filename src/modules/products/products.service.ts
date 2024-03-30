@@ -11,19 +11,19 @@ export class ProductsService {
     @InjectRepository(Product) private productRepository: Repository<Product>,
   ) {}
   create(createProductDto: CreateProductDto) {
-    const newProduct = this.productRepository.create(createProductDto)
-    this.productRepository.save(newProduct)
+    const newProduct = this.productRepository.create(createProductDto);
+    this.productRepository.save(newProduct);
     return newProduct;
   }
 
   findAll() {
-    const products = this.productRepository.find()
+    const products = this.productRepository.find();
     return products;
   }
 
- async findOne(id: string) {
+  async findOne(id: string) {
     const product = await this.productRepository.findOne({
-      where: { product_id:id },
+      where: { product_id: id },
     });
     if (!product) {
       throw new NotFoundException(`product not found`);
@@ -39,6 +39,6 @@ export class ProductsService {
 
   async remove(id: string) {
     const product = await this.findOne(id);
-    return this.productRepository.remove(product)
+    return this.productRepository.remove(product);
   }
 }

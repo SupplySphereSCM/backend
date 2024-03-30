@@ -1,15 +1,15 @@
-import { IsNegative, IsNumber, IsString } from "class-validator";
+import { IsNegative, IsNumber, IsString } from 'class-validator';
 
 export class CreateProductDto {
-    @IsString()
-    product_id:string;
+  @IsString()
+  product_id: string;
 
-    @IsString()
-    product_name:string;
+  @IsString()
+  product_name: string;
 
-    @IsNumber()
-    quantity:number;
+  @IsNumber()
+  quantity: number;
 
-    @IsNumber()
-    price:number;
+  @IsNumber()
+  price: number;
 }

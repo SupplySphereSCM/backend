@@ -22,7 +22,7 @@ export class DevicesService {
 
   async findOne(id: string) {
     const device = await this.deviceRepository.findOne({
-      where: { device_id:id },
+      where: { device_id: id },
     });
     if (!device) {
       throw new NotFoundException(`invalid device id`);
@@ -31,15 +31,13 @@ export class DevicesService {
   }
 
   async update(id: string, updateDeviceDto: UpdateDeviceDto) {
-    const  device = await this.findOne(id);
-    Object.assign(device , updateDeviceDto);
-    return this.deviceRepository.save(device );
-    
+    const device = await this.findOne(id);
+    Object.assign(device, updateDeviceDto);
+    return this.deviceRepository.save(device);
   }
 
   async remove(id: string) {
     const device = await this.findOne(id);
     return this.deviceRepository.remove(device);
-    
   }
 }

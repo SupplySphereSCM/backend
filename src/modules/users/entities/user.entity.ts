@@ -1,4 +1,3 @@
-
 import { Product } from 'src/modules/products/entities/product.entity';
 
 import {
@@ -64,14 +63,10 @@ export class User {
   @Column({
     nullable: true,
   })
-  ethAddress:string;
+  ethAddress: string;
 
-  
-
-  @OneToMany(()=>Product,(product)=>product.user)
-  services:Product[];
- 
-
+  @OneToMany(() => Product, (product) => product.user)
+  services: Product[];
 
   @Column({
     type: 'enum',

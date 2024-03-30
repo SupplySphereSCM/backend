@@ -95,7 +95,6 @@ export default registerAs<DatabaseConfig>('database', () => {
     ca: process.env.DATABASE_CA,
     key: process.env.DATABASE_KEY,
     cert: process.env.DATABASE_CERT,
-    entities:process.env.DATABASE_ENTITIES,
-    
+    entities: process.env.DATABASE_ENTITIES,
   };
 });

@@ -1,37 +1,35 @@
 import { User } from 'src/modules/users/entities/user.entity';
 import {
-    Entity,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    PrimaryColumn,
-    ManyToOne,
-    
-  } from 'typeorm';
-  
-  @Entity({
-    name: Product.name,
-  })
+  Entity,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryColumn,
+  ManyToOne,
+} from 'typeorm';
+
+@Entity({
+  name: Product.name,
+})
 export class Product {
   @PrimaryColumn({})
-    product_id:string;
+  product_id: string;
 
-    @Column({})
-    product_name:string;
+  @Column({})
+  product_name: string;
 
-    @ManyToOne(()=>User,(user)=>user.services)
-    user:User;
+  @ManyToOne(() => User, (user) => user.services)
+  user: User;
 
-    @Column({})
-    quantity:number;
+  @Column({})
+  quantity: number;
 
-    @Column({})
-    price:number;
+  @Column({})
+  price: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
-
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

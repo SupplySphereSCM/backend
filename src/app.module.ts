@@ -11,7 +11,6 @@ import { AppController } from './app.controller';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 
-
 import appConfig from './config/app.config';
 import authConfig from './config/auth.config';
 import mailConfig from './config/mail.config';
@@ -25,7 +24,6 @@ import { Device } from './modules/devices/entities/device.entity';
 import { User } from './modules/users/entities/user.entity';
 import { Transaction } from './modules/transactions/entities/transaction.entity';
 import { Product } from './modules/products/entities/product.entity';
-
 
 // ----------------------------------------------------------
 
@@ -55,7 +53,7 @@ import { Product } from './modules/products/entities/product.entity';
         password: config.get<string>('database.password'),
         database: config.get<string>('database.name'),
         synchronize: config.get<boolean>('database.synchronize'),
-        entities:[Device,User,Transaction,Product],
+        entities: [Device, User, Transaction, Product],
         autoLoadEntities: true,
       }),
     }),
@@ -63,9 +61,8 @@ import { Product } from './modules/products/entities/product.entity';
     AuthModule,
     DevicesModule,
     TransactionsModule,
-    
-    ProductsModule
-   
+
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

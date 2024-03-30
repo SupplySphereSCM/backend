@@ -1,10 +1,6 @@
-import {IsString} from 'class-validator';
-  
+import { IsString } from 'class-validator';
+
 export class CreateDeviceDto {
-    
-
-    @IsString()
-    device_id:string;
-
-    
+  @IsString()
+  device_id: string;
 }
