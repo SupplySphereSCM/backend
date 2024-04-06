@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { Module } from '@nestjs/common';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -29,6 +30,7 @@ import { Product } from './modules/products/entities/product.entity';
 
 @Module({
   imports: [
+    
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
     }),
