@@ -10,10 +10,10 @@ import {
 } from 'typeorm';
 
 export enum ROLES {
-  OWNER = 'OWNER',
-  PRODUCER = 'PRODUCER',
+  OWNER="OWNER",
   MANUFACTURER = 'MANUFACTURER',
-  WHOLESELLER = 'WHOLESELLER',
+  SELLER="SELLER",
+  TRANSPORTER = "TRANSPORTER",
   RETAILER = 'RETAILER',
 }
 
@@ -72,7 +72,7 @@ export class User {
     type: 'enum',
     enum: ROLES,
     array: true,
-    default: [ROLES.OWNER],
+    default: [ROLES.SELLER],
   })
   roles: ROLES[];
 
