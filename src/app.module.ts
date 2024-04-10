@@ -30,7 +30,6 @@ import { Product } from './modules/products/entities/product.entity';
 
 @Module({
   imports: [
-    
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
     }),

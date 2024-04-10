@@ -9,11 +9,16 @@ import { EmailRegisterDto } from './dto/email-register-user.dto';
 import { ROLES } from '../users/entities/user.entity';
 import { RequestNonceDto } from './dto/request-nonce.dto';
 import { verifySignatureDto } from './dto/verify-signature.dto';
+import { UsersService } from '../users/users.service';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+  ) {}
 
   // @Get('google')
   // async getGoogleAuthUrl(@Res() res: Response) {
@@ -29,18 +34,35 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() emailRegisterDto: EmailRegisterDto) {
-    return this.authService.register(emailRegisterDto);
+    const accessToken = await this.authService.register(emailRegisterDto);
+    const user = await this.userService.findByEmail(emailRegisterDto.email);
+    return {
+      accessToken,
+      user,
+    };
   }
 
   @Post('login')
   async login(@Body() emailLoginDto: EmailLoginDto) {
-    return this.authService.login(emailLoginDto);
+    const accessToken = await this.authService.login(emailLoginDto);
+    const user = await this.userService.findByEmail(emailLoginDto.email);
+    return {
+      accessToken,
+      user,
+    };
   }
 
   @Post('request-nonce')
   async generateNonce(@Body() noncerequestDto: RequestNonceDto) {
     return this.authService.generateNonce(noncerequestDto);
   }
+
+  @Get('me')
+  async me(@CurrentUser() user: any) {
+    console.log(user);
+    return user;
+  }
+
   @Post('verify-signature')
   async verifySignature(@Body() verifysignaturedto: verifySignatureDto) {
     return this.authService.verifySignature(verifysignaturedto);
