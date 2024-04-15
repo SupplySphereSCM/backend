@@ -9,11 +9,17 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { UsersService } from '../users/users.service';
 import { UsersModule } from '../users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Module({
   controllers: [AuthController],
   providers: [
     AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
     {
       provide: JwtStrategy,
       useFactory: (config: ConfigService, userService: UsersService) => {

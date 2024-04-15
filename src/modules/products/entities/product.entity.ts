@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   PrimaryColumn,
   ManyToOne,
+  JoinTable,
 } from 'typeorm';
 
 @Entity({
@@ -19,6 +20,7 @@ export class Product {
   product_name: string;
 
   @ManyToOne(() => User, (user) => user.services)
+  @JoinTable()
   user: User;
 
   @Column({})

@@ -1,17 +1,15 @@
-import { Response } from 'express';
-import { Controller, Get, Post, Body, Res, Query, UseGuards } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 
 import { EmailLoginDto } from './dto/email-login-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
-import { ROLES } from '../users/entities/user.entity';
 import { RequestNonceDto } from './dto/request-nonce.dto';
 import { verifySignatureDto } from './dto/verify-signature.dto';
 import { UsersService } from '../users/users.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { JwtAuthGuard } from './guards/jwt.guard';
+import { Public } from 'src/common/decorators/public-api.decorator';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -34,6 +32,7 @@ export class AuthController {
   // }
 
   @Post('register')
+  @Public()
   async register(@Body() emailRegisterDto: EmailRegisterDto) {
     const accessToken = await this.authService.register(emailRegisterDto);
     const user = await this.userService.findByEmail(emailRegisterDto.email);
@@ -44,6 +43,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @Public()
   async login(@Body() emailLoginDto: EmailLoginDto) {
     const accessToken = await this.authService.login(emailLoginDto);
     const user = await this.userService.findByEmail(emailLoginDto.email);
@@ -54,18 +54,19 @@ export class AuthController {
   }
 
   @Post('request-nonce')
+  @Public()
   async generateNonce(@Body() noncerequestDto: RequestNonceDto) {
     return this.authService.generateNonce(noncerequestDto);
   }
 
   @Get('me')
-  @UseGuards(JwtAuthGuard)
   async me(@CurrentUser() user: any) {
     console.log(user);
     return user;
   }
 
   @Post('verify-signature')
+  @Public()
   async verifySignature(@Body() verifysignaturedto: verifySignatureDto) {
     return this.authService.verifySignature(verifysignaturedto);
   }
