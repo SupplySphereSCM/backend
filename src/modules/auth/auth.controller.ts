@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, Query, UseGuards } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
@@ -11,6 +11,7 @@ import { RequestNonceDto } from './dto/request-nonce.dto';
 import { verifySignatureDto } from './dto/verify-signature.dto';
 import { UsersService } from '../users/users.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -58,6 +59,7 @@ export class AuthController {
   }
 
   @Get('me')
+  @UseGuards(JwtAuthGuard)
   async me(@CurrentUser() user: any) {
     console.log(user);
     return user;
