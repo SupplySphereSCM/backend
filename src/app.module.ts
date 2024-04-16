@@ -25,11 +25,15 @@ import { Device } from './modules/devices/entities/device.entity';
 import { User } from './modules/users/entities/user.entity';
 import { Transaction } from './modules/transactions/entities/transaction.entity';
 import { Product } from './modules/products/entities/product.entity';
+import { MulterModule } from '@nestjs/platform-express';
 
 // ----------------------------------------------------------
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest:'./uploads'
+    }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
     }),

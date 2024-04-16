@@ -32,8 +32,8 @@ export class Product {
   @Column({})
   tax: number;
 
-  // @Column({})
-  // images:string[];
+  @Column('text',{array:true})
+  images:string[];
 
 
   @Column({})

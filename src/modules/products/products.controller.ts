@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -14,6 +16,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { Public } from 'src/common/decorators/public-api.decorator';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { storage } from 'src/config/storage.config';
 
 @Controller('products')
 @ApiTags('products')
@@ -22,8 +26,13 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @UseInterceptors(FilesInterceptor('images',10,{storage}))
+  create(@UploadedFiles() images:any,@Body() createProductDto:CreateProductDto) {
+    console.log(createProductDto);
+    
+    console.log(images)
+    // const imagesUrl = images.map(file => file.path);
+    // return this.productsService.create(createProductDto,imagesUrl);
   }
 
   @Public()
