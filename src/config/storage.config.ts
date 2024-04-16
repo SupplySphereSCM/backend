@@ -1,11 +1,15 @@
 import { diskStorage } from 'multer';
+import { extname } from 'path';
 
-export const storage = diskStorage({
-  destination: './uploads', 
-  filename: (req, file, cb) => {
-
-    // Generate a unique filename for each uploaded file
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null,  uniqueSuffix+"-"+file.originalname );
-  },
-});
+export const storage = {
+  // Set storage engine to disk storage
+  storage: diskStorage({
+    destination: './uploads', // Destination folder where files will be stored
+    filename: (req, file, cb) => {
+      // Generate a unique filename for each uploaded file
+      const randomName = Array(32).fill(null).map(() => Math.round(Math.random() * 16).toString(16)).join('');
+      const extension = extname(file.originalname); // Get file extension
+      cb(null, `${randomName}${extension}`); // Return generated filename
+    },
+  }),
+};

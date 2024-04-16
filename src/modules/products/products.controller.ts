@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFiles,
 } from '@nestjs/common';
+import { Express } from 'express'
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -26,8 +27,8 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('images',10,{storage}))
-  create(@UploadedFiles() images:any,@Body() createProductDto:CreateProductDto) {
+  @UseInterceptors(FilesInterceptor('images'))
+  create(@UploadedFiles() images:Express.Multer.File,@Body() createProductDto:CreateProductDto) {
     console.log(createProductDto);
     
     console.log(images)
