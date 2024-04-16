@@ -17,13 +17,13 @@ export class Product {
   product_id: string;
 
   @Column({})
-  product_name: string;
+  name: string;
 
   @ManyToOne(() => User, (user) => user.services)
   @JoinTable()
   user: User;
 
-  @Column({default:0})
+  @Column({ default: 0 })
   quantity: number;
 
   @Column({})
@@ -32,15 +32,14 @@ export class Product {
   @Column({})
   tax: number;
 
-  @Column('text',{array:true})
-  images:string[];
-
-
-  @Column({})
-  description:string;
+  @Column('text', { array: true, nullable: true })
+  images: string[];
 
   @Column({})
-  subDescription:string;
+  description: string;
+
+  @Column({})
+  subDescription: string;
 
   @CreateDateColumn()
   createdAt: Date;

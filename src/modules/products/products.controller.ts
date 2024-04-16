@@ -10,7 +10,7 @@ import {
   UseInterceptors,
   UploadedFiles,
 } from '@nestjs/common';
-import { Express } from 'express'
+import { Express } from 'express';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -28,12 +28,15 @@ export class ProductsController {
 
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
-  create(@UploadedFiles() images:Express.Multer.File,@Body() createProductDto:CreateProductDto) {
+  create(
+    @UploadedFiles() images: Express.Multer.File,
+    @Body() createProductDto: CreateProductDto,
+  ) {
     console.log(createProductDto);
-    
-    console.log(images)
+
+    console.log(images);
     // const imagesUrl = images.map(file => file.path);
-    // return this.productsService.create(createProductDto,imagesUrl);
+    return this.productsService.create(createProductDto);
   }
 
   @Public()

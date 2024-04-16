@@ -10,9 +10,9 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepository: Repository<Product>,
   ) {}
-  create(createProductDto: CreateProductDto,images:string[]) {
+  create(createProductDto: CreateProductDto) {
     const newProduct = this.productRepository.create(createProductDto);
-    newProduct.images = images
+    // newProduct.images = images;
     this.productRepository.save(newProduct);
     return newProduct;
   }
