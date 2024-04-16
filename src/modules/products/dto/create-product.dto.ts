@@ -5,11 +5,23 @@ export class CreateProductDto {
   product_id: string;
 
   @IsString()
-  product_name: string;
+  name: string;
 
   @IsNumber()
   quantity: number;
 
   @IsNumber()
   price: number;
+
+  @IsNumber()
+  tax: number;
+
+  // @IsString()
+  // images:string[];
+
+  @IsString()
+  description:string;
+
+  @IsString()
+  subDescription:string;
 }

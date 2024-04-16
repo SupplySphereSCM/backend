@@ -23,11 +23,24 @@ export class Product {
   @JoinTable()
   user: User;
 
-  @Column({})
+  @Column({default:0})
   quantity: number;
 
   @Column({})
   price: number;
+
+  @Column({})
+  tax: number;
+
+  // @Column({})
+  // images:string[];
+
+
+  @Column({})
+  description:string;
+
+  @Column({})
+  subDescription:string;
 
   @CreateDateColumn()
   createdAt: Date;
