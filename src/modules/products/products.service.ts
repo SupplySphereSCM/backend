@@ -10,12 +10,12 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepository: Repository<Product>,
   ) {}
-  create(createProductDto: CreateProductDto) {
-    const newProduct = this.productRepository.create(createProductDto);
-    // newProduct.images = images;
-    this.productRepository.save(newProduct);
-    return newProduct;
-  }
+  // create(createProductDto: CreateProductDto) {
+  //   const newProduct = this.productRepository.create(createProductDto);
+  //   // newProduct.images = images;
+  //   this.productRepository.save(newProduct);
+  //   return newProduct;
+  // }
 
   findAll() {
     const products = this.productRepository.find();

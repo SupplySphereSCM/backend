@@ -36,7 +36,7 @@ export class ProductsController {
 
     console.log(images);
     // const imagesUrl = images.map(file => file.path);
-    return this.productsService.create(createProductDto);
+    // return this.productsService.create(createProductDto);
   }
 
   @Public()
