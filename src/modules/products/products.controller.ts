@@ -19,30 +19,39 @@ import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { Public } from 'src/common/decorators/public-api.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/config/storage.config';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { UsersService } from '../users/users.service';
 
 @Controller('products')
 @ApiTags('products')
 @UseGuards(JwtAuthGuard)
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService,
+    private readonly userService: UsersService
+    
+  ) {}
 
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
   create(
     @UploadedFiles() images: Express.Multer.File,
     @Body() createProductDto: CreateProductDto,
+    @CurrentUser() user:any
   ) {
-    console.log(createProductDto);
-
-    console.log(images);
+    
     // const imagesUrl = images.map(file => file.path);
-    // return this.productsService.create(createProductDto);
+    return this.productsService.create(createProductDto,user);
   }
 
   @Public()
-  @Get()
+  @Get('shop')
   findAll() {
     return this.productsService.findAll();
+  }
+
+  @Get('user')
+  findProducts(@CurrentUser() user:any){
+    return this.userService.findUserProducts(user.id)
   }
 
   @Get(':id')

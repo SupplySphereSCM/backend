@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Product } from '../products/entities/product.entity';
 
 @Injectable()
 export class UsersService {
@@ -61,4 +62,13 @@ export class UsersService {
     const user = await this.findOne(id);
     return this.userRepository.remove(user);
   }
+
+  async findUserProducts(id: string): Promise<Product[]> {
+    const user = await this.userRepository.findOne({where:{id} , relations: ['services'] });
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user.services;
+  }
+
 }
