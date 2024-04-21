@@ -1,6 +1,11 @@
-
-
-import { IsArray, IsNotEmpty, IsNumber, IsObject, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ProductList } from '../entities/invoice.entity';
 
@@ -13,11 +18,11 @@ export class CreateInvoiceDto {
 
   @IsNotEmpty()
   @IsString()
-  from : string;
+  from: string;
 
   @IsNotEmpty()
   @IsString()
-  to : string;
+  to: string;
 
   @IsNotEmpty()
   @IsNumber()

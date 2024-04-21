@@ -26,9 +26,9 @@ import { UsersService } from '../users/users.service';
 @ApiTags('products')
 @UseGuards(JwtAuthGuard)
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService,
-    private readonly userService: UsersService
-    
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly userService: UsersService,
   ) {}
 
   @Post()
@@ -36,11 +36,10 @@ export class ProductsController {
   create(
     @UploadedFiles() images: Express.Multer.File,
     @Body() createProductDto: CreateProductDto,
-    @CurrentUser() user:any
+    @CurrentUser() user: any,
   ) {
-    
     // const imagesUrl = images.map(file => file.path);
-    return this.productsService.create(createProductDto,user);
+    return this.productsService.create(createProductDto, user);
   }
 
   @Public()
@@ -50,8 +49,8 @@ export class ProductsController {
   }
 
   @Get('user')
-  findProducts(@CurrentUser() user:any){
-    return this.userService.findUserProducts(user.id)
+  findProducts(@CurrentUser() user: any) {
+    return this.userService.findUserProducts(user.id);
   }
 
   @Get(':id')

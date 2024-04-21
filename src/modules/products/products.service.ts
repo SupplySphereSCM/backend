@@ -13,15 +13,14 @@ export class ProductsService {
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(User) private UserRepository: Repository<User>,
     private userService: UsersService,
-  
   ) {}
-  async create(createProductDto: CreateProductDto,user:any) {
+  async create(createProductDto: CreateProductDto, user: any) {
     const newProduct = this.productRepository.create(createProductDto);
     // newProduct.images = images;
-    const cu =await this.userService.findOne(user.id)
-   newProduct.user=cu
+    const cu = await this.userService.findOne(user.id);
+    newProduct.user = cu;
     this.productRepository.save(newProduct);
-    
+
     return newProduct;
   }
 

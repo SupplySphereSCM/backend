@@ -1,4 +1,11 @@
-import { IsArray, IsNegative, IsNumber, IsString, Validate, validate } from 'class-validator';
+import {
+  IsArray,
+  IsNegative,
+  IsNumber,
+  IsString,
+  Validate,
+  validate,
+} from 'class-validator';
 import { IsBinaryArrayConstraint } from 'src/common/validators/isBinary.validator';
 
 export class CreateProductDto {
@@ -22,8 +29,8 @@ export class CreateProductDto {
   // images: Buffer[];
 
   @IsString()
-  description:string;
+  description: string;
 
   @IsString()
-  subDescription:string;
+  subDescription: string;
 }
