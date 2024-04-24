@@ -18,7 +18,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { Public } from 'src/common/decorators/public-api.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { storage } from 'src/config/storage.config';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { UsersService } from '../users/users.service';
 
@@ -33,11 +32,7 @@ export class ProductsController {
 
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
-  create(
-    @UploadedFiles() images: Express.Multer.File,
-    @Body() createProductDto: CreateProductDto,
-    @CurrentUser() user: any,
-  ) {
+  create(@Body() createProductDto: CreateProductDto, @CurrentUser() user: any) {
     // const imagesUrl = images.map(file => file.path);
     return this.productsService.create(createProductDto, user);
   }

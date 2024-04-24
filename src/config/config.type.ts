@@ -39,16 +39,12 @@ export type DatabaseConfig = {
 export type FacebookConfig = {
   appId?: string;
   appSecret?: string;
+  accessToken?: string;
 };
 
 export type FileConfig = {
-  driver: string;
-  accessKeyId?: string;
-  secretAccessKey?: string;
-  awsDefaultS3Bucket?: string;
-  awsDefaultS3Url?: string;
-  awsS3Region?: string;
-  maxFileSize: number;
+  apiKey?: string;
+  apiSecret?: string;
 };
 
 export type GoogleConfig = {

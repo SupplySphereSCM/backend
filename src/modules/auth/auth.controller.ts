@@ -10,6 +10,7 @@ import { verifySignatureDto } from './dto/verify-signature.dto';
 import { UsersService } from '../users/users.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { Public } from 'src/common/decorators/public-api.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -60,7 +61,7 @@ export class AuthController {
   }
 
   @Get('me')
-  async me(@CurrentUser() user: any) {
+  async me(@CurrentUser() user: User) {
     console.log(user);
     return user;
   }
