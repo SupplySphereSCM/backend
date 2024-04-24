@@ -12,20 +12,21 @@ export class OrdersService {
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     private productService: ProductsService,
   ) {}
-  create(createOrderDto: CreateOrderDto, buyer: any) {
+  async create(createOrderDto: CreateOrderDto, buyer: any) {
     const randomNumber = Math.floor(Math.random() * 1000000);
 
     const Orderid = randomNumber.toString();
     const { products } = createOrderDto;
-    const orders = products.map((product) => {
-      const order = this.orderRepository.create();
+    const orders = await Promise.all(products.map(async(product) => {
+      const order = await this.orderRepository.create();
       order.id = Orderid;
       order.product = product;
       order.from = buyer;
       order.to = product.user;
       order.total = createOrderDto.total;
-      this.orderRepository.save(order);
-    });
+      await this.orderRepository.save(order);
+      return order;
+    }));
     // order.to =
 
     return orders;
