@@ -1,19 +1,21 @@
-import {
-  IsArray,
-  IsNegative,
-  IsNumber,
-  IsString,
-  Validate,
-  validate,
-} from 'class-validator';
-import { IsBinaryArrayConstraint } from 'src/common/validators/isBinary.validator';
+import { ArrayNotEmpty, IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
-  product_id: string;
+  name: string;
 
   @IsString()
-  name: string;
+  description: string;
+
+  @IsString()
+  subDescription: string;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  images: string[];
+
+  @IsString()
+  code: string;
 
   @IsNumber()
   quantity: number;
@@ -23,14 +25,4 @@ export class CreateProductDto {
 
   @IsNumber()
   tax: number;
-
-  // @IsArray()
-  // @Validate(IsBinaryArrayConstraint) // Ensure each element of the array is binary data
-  // images: Buffer[];
-
-  @IsString()
-  description: string;
-
-  @IsString()
-  subDescription: string;
 }

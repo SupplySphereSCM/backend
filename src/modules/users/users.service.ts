@@ -16,7 +16,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const newUser = this.userRepository.create(createUserDto);
-    this.userRepository.save(newUser);
+    await this.userRepository.save(newUser);
     return newUser;
   }
 
@@ -66,11 +66,11 @@ export class UsersService {
   async findUserProducts(id: string): Promise<Product[]> {
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['services'],
+      relations: ['products'],
     });
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
-    return user.services;
+    return user.products;
   }
 }

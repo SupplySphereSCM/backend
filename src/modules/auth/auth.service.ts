@@ -1,15 +1,18 @@
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { UsersService } from '../users/users.service';
 
-import { ROLES, User } from 'src/modules/users/entities/user.entity';
+// import { ROLES, User } from 'src/modules/users/entities/user.entity';
 
-import { IGoogleUser } from 'src/common/interfaces/google';
+// import { IGoogleUser } from 'src/common/interfaces/google';
 
 import { EmailLoginDto } from './dto/email-login-user.dto';
-import { CreateUserDto } from '../users/dto/create-user.dto';
 import { EmailRegisterDto } from './dto/email-register-user.dto';
 import { instanceToPlain } from 'class-transformer';
 import { RequestNonceDto } from './dto/request-nonce.dto';
@@ -85,21 +88,28 @@ export class AuthService {
 
     const user = await this.userService.create({
       email: emailRegisterDto.email,
-      role: emailRegisterDto.role,
+      roles: [...emailRegisterDto.role],
       firstName: emailRegisterDto.email.split('@')[0],
       password: emailRegisterDto.password,
     });
 
-    return this.jwtService.signAsync(instanceToPlain(user), {
+    const accessToken = await this.jwtService.signAsync(instanceToPlain(user), {
       expiresIn: '1d',
     });
+
+    delete user.password;
+
+    return {
+      accessToken,
+      user,
+    };
   }
 
   async login(createAuthDto: EmailLoginDto) {
     const user = await this.userService.findByEmail(createAuthDto.email);
 
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     const isPasswordMatch = await bcrypt.compare(
@@ -108,13 +118,23 @@ export class AuthService {
     );
 
     if (!isPasswordMatch) {
-      throw new Error('Invalid password');
+      throw new BadRequestException('Invalid Password', {
+        description: 'Invalid Password',
+      });
     }
 
-    return this.jwtService.signAsync(instanceToPlain(user), {
+    const accessToken = await this.jwtService.signAsync(instanceToPlain(user), {
       expiresIn: '1d',
     });
+
+    delete user.password;
+
+    return {
+      accessToken,
+      user,
+    };
   }
+
   async generateNonce(requestnonce: RequestNonceDto) {
     const randomNumber = Math.random();
     const Nonce = Math.floor(randomNumber * 100000);
@@ -125,6 +145,7 @@ export class AuthService {
       },
     );
   }
+
   async verifySignature(verifySignaturedto: verifySignatureDto) {
     const { hash, signature, jwt } = verifySignaturedto;
     const hashByteArray = Uint8Array.from(Buffer.from(hash, 'hex'));
@@ -137,6 +158,11 @@ export class AuthService {
     if (address === decodedJWT.walletAddress) {
       return this.userService.findByEthAddress(address);
     }
-    throw new Error(`signature mismatch`);
+    throw new BadRequestException('Signature mismatch');
+  }
+
+  async deleteUser(userId: string) {
+    console.log('DELETE USER:', userId);
+    return this.userService.remove(userId);
   }
 }

@@ -6,13 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { QueryObjectDto } from 'src/common/dto/query.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('orders')
+@ApiTags('Order')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
@@ -22,8 +26,8 @@ export class OrdersController {
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Query() query: QueryObjectDto) {
+    return this.ordersService.findAll(query);
   }
 
   @Get(':id')

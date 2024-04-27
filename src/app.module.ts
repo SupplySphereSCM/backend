@@ -3,14 +3,13 @@ import { Module } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ServeStaticModule } from '@nestjs/serve-static';
+// import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+// ----------------------------------------------------------
 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
-
-import { UsersModule } from './modules/users/users.module';
-import { AuthModule } from './modules/auth/auth.module';
+// ----------------------------------------------------------
 
 import appConfig from './config/app.config';
 import authConfig from './config/auth.config';
@@ -18,23 +17,25 @@ import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import googleConfig from './config/google.config';
 import databaseConfig from './config/database.config';
+// ----------------------------------------------------------
 
-import { User } from './modules/users/entities/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 import { UploadModule } from './modules/upload/upload.module';
-import { DevicesModule } from './modules/devices/devices.module';
-import { Device } from './modules/devices/entities/device.entity';
+import { OrdersModule } from './modules/orders/orders.module';
+import { InvoiceModule } from './modules/invoice/invoice.module';
 import { ProductsModule } from './modules/products/products.module';
-import { Product } from './modules/products/entities/product.entity';
-import { TransactionsModule } from './modules/transactions/transactions.module';
-import { Transaction } from './modules/transactions/entities/transaction.entity';
+import { ServicesModule } from './modules/services/services.module';
+import { SupplyChainModule } from './modules/supply-chain/supply-chain.module';
+import { RawMaterialsModule } from './modules/raw-materials/raw-materials.module';
 
 // ----------------------------------------------------------
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'public'),
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: path.join(__dirname, '..', 'public'),
+    // }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [
@@ -63,21 +64,21 @@ import { Transaction } from './modules/transactions/entities/transaction.entity'
         password: config.get<string>('database.password'),
         database: config.get<string>('database.name'),
         synchronize: config.get<boolean>('database.synchronize'),
-        entities: [Device, User, Transaction, Product],
         autoLoadEntities: true,
         // ssl: {
         //   rejectUnauthorized: false,
         // },
       }),
     }),
-    UsersModule,
     AuthModule,
-    DevicesModule,
-    TransactionsModule,
-
-    ProductsModule,
-
+    UsersModule,
     UploadModule,
+    OrdersModule,
+    InvoiceModule,
+    ProductsModule,
+    ServicesModule,
+    SupplyChainModule,
+    RawMaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

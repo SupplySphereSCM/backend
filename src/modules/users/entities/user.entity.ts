@@ -1,4 +1,9 @@
+import { Invoice } from 'src/modules/invoice/entities/invoice.entity';
+import { Order } from 'src/modules/orders/entities/order.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
+import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.entity';
+import { Service } from 'src/modules/services/entities/service.entity';
+import { SupplyChain } from 'src/modules/supply-chain/entities/supply-chain.entity';
 
 import {
   Entity,
@@ -10,18 +15,15 @@ import {
 } from 'typeorm';
 
 export enum ROLES {
-  OWNER = 'OWNER',
   MANUFACTURER = 'MANUFACTURER',
   SELLER = 'SELLER',
   TRANSPORTER = 'TRANSPORTER',
   RETAILER = 'RETAILER',
 }
 
-@Entity({
-  name: User.name,
-})
+@Entity()
 export class User {
-  @PrimaryGeneratedColumn({})
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({
@@ -51,7 +53,7 @@ export class User {
   isEmailVerified: boolean;
 
   @Column({
-    default: 'no-user.png',
+    default: '/no-user.png',
   })
   profilePictureUrl?: string;
 
@@ -66,13 +68,24 @@ export class User {
   ethAddress: string;
 
   @OneToMany(() => Product, (product) => product.user)
-  services: Product[];
+  products: Product[];
+
+  @OneToMany(() => Service, (service) => service.user)
+  services: Service[];
+
+  @OneToMany(() => RawMaterial, (rawMaterials) => rawMaterials.user)
+  materials: RawMaterial[];
+
+  @OneToMany(() => SupplyChain, (supplychains) => supplychains.user)
+  supplyChains: SupplyChain[];
+
+  @OneToMany(() => SupplyChain, (supplychains) => supplychains.user)
+  orders: SupplyChain[];
 
   @Column({
     type: 'enum',
     enum: ROLES,
     array: true,
-    default: [ROLES.SELLER],
   })
   roles: ROLES[];
 

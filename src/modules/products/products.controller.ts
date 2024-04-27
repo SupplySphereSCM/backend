@@ -7,19 +7,21 @@ import {
   Param,
   Delete,
   UseGuards,
-  UseInterceptors,
-  UploadedFiles,
+  Query,
 } from '@nestjs/common';
-import { Express } from 'express';
+import { ApiTags } from '@nestjs/swagger';
+
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+
+import { User } from 'src/modules/users/entities/user.entity';
+import { UsersService } from 'src/modules/users/users.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt.guard';
+
+import { QueryObjectDto } from 'src/common/dto/query.dto';
 import { Public } from 'src/common/decorators/public-api.decorator';
-import { FilesInterceptor } from '@nestjs/platform-express';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { UsersService } from '../users/users.service';
 
 @Controller('products')
 @ApiTags('products')
@@ -31,16 +33,17 @@ export class ProductsController {
   ) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('images'))
-  create(@Body() createProductDto: CreateProductDto, @CurrentUser() user: any) {
-    // const imagesUrl = images.map(file => file.path);
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @CurrentUser() user: User,
+  ) {
     return this.productsService.create(createProductDto, user);
   }
 
   @Public()
-  @Get('shop')
-  findAll() {
-    return this.productsService.findAll();
+  @Get()
+  findAll(@Query() query: QueryObjectDto) {
+    return this.productsService.findAll(query);
   }
 
   @Get('user')

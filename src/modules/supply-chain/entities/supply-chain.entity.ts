@@ -1,16 +1,16 @@
 import { User } from 'src/modules/users/entities/user.entity';
 import {
-  Entity,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
+  Entity,
   JoinTable,
+  ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Product {
+export class SupplyChain {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -20,22 +20,7 @@ export class Product {
   @Column()
   description: string;
 
-  @Column()
-  subDescription: string;
-
-  @Column({ default: 0 })
-  quantity: number;
-
-  @Column()
-  price: number;
-
-  @Column()
-  tax: number;
-
-  @Column('text', { array: true, nullable: true })
-  images: string[];
-
-  @ManyToOne(() => User, (user) => user.products)
+  @ManyToOne(() => User, (user) => user.supplyChains)
   @JoinTable()
   user: User;
 

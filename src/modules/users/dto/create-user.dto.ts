@@ -41,5 +41,5 @@ export class CreateUserDto {
   @IsArray()
   @ArrayNotEmpty()
   @IsEnum(ROLES, { each: true })
-  role?: ROLES[];
+  roles?: ROLES[];
 }

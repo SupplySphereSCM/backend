@@ -15,9 +15,12 @@ export class UploadService {
 
   async uploadFile(file: Express.Multer.File): Promise<string> {
     try {
+      const timestamp = Date.now().toString();
+
+      const path = `/${timestamp}-${file.originalname}`;
       // Upload file to Dropbox
       await this.dropbox.filesUpload({
-        path: '/' + file.originalname,
+        path,
         contents: file.buffer,
         mode: { '.tag': 'overwrite' }, // To handle overwriting or add unique naming logic
       });
@@ -25,7 +28,7 @@ export class UploadService {
       // Create a shared link
       const linkResponse =
         await this.dropbox.sharingCreateSharedLinkWithSettings({
-          path: '/' + file.originalname,
+          path,
         });
 
       // Replace www with dl to make the link a direct download link

@@ -6,12 +6,13 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { QueryObjectDto } from 'src/common/dto/query.dto';
+import { ApiFeatures } from 'src/utils/api-features';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(User) private UserRepository: Repository<User>,
     private userService: UsersService,
   ) {}
   async create(createProductDto: CreateProductDto, user: any) {
@@ -24,14 +25,20 @@ export class ProductsService {
     return newProduct;
   }
 
-  findAll() {
-    const products = this.productRepository.find();
-    return products;
+  findAll(query: QueryObjectDto) {
+    const filteredProducts = new ApiFeatures(
+      this.productRepository,
+      query,
+    ).findAll();
+
+    return filteredProducts;
+    // const products = this.productRepository.find();
+    // return products;
   }
 
   async findOne(id: string) {
     const product = await this.productRepository.findOne({
-      where: { product_id: id },
+      where: { id },
     });
     if (!product) {
       throw new NotFoundException(`product not found`);

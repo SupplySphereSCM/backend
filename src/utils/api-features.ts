@@ -1,22 +1,27 @@
 import { QueryObjectDto } from 'src/common/dto/query.dto';
+import {
+  FindOptionsOrder,
+  FindOptionsRelations,
+  FindOptionsSelect,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 
 export class ApiFeatures<T> {
   page: number;
   limit: number;
-  order: any;
-  fields: any;
-  filter: any;
-  populate: any;
-  // order: FindOptionsOrder<T>;
-  // fields: FindOptionsSelect<T> = {};
-  // filter: FindOptionsWhere<T> | FindOptionsWhere<T>[];
-  // populate: FindOptionsRelations<T> = {};
+  order: FindOptionsOrder<T>;
+  fields: FindOptionsSelect<T> = {};
+  filter: FindOptionsWhere<T> | FindOptionsWhere<T>[];
+  populate: FindOptionsRelations<T> = {};
   loadRelationIds: boolean = true;
 
   constructor(
-    private repo: any,
+    private repo: Repository<T>,
     private query: QueryObjectDto,
   ) {
+    if (!this.query.page) this.query.page = 1;
+    if (!this.query.limit) this.query.limit = 10;
     this.#normalizeQuery();
   }
 
@@ -30,8 +35,7 @@ export class ApiFeatures<T> {
           return acc;
         },
         {},
-      );
-      // ) as FindOptionsSelect<T>;
+      ) as FindOptionsSelect<T>;
     }
 
     if (populate) {
@@ -54,10 +58,9 @@ export class ApiFeatures<T> {
     }
 
     if (filter) {
-      this.filter = this.query?.filter;
-      //  as
-      // | FindOptionsWhere<T>
-      // | FindOptionsWhere<T>[];
+      this.filter = this.query.filter as
+        | FindOptionsWhere<T>
+        | FindOptionsWhere<T>[];
     }
 
     if (limit) {
@@ -69,8 +72,8 @@ export class ApiFeatures<T> {
     }
 
     if (order) {
-      this.order = this.query?.order;
-      // this.order = this.query?.order as FindOptionsOrder<T>;
+      // this.order = this.query?.order;
+      this.order = this.query?.order as FindOptionsOrder<T>;
     }
   }
 

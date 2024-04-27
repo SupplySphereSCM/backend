@@ -3,23 +3,22 @@ import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export class ProductList {
-  @Column({})
+  @Column()
   product: Product;
 
-  @Column({})
+  @Column()
   quantity: number;
 
-  @Column({})
+  @Column()
   price: number;
 
-  @Column({})
+  @Column()
   subaTotal: number;
 }
-@Entity({
-  name: Invoice.name,
-})
+
+@Entity()
 export class Invoice {
-  @PrimaryGeneratedColumn({})
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => User, (user) => user)
@@ -31,12 +30,12 @@ export class Invoice {
   @Column({ type: 'jsonb' })
   products: ProductList[];
 
-  @Column({})
+  @Column()
   cgst: number;
 
-  @Column({})
+  @Column()
   sgst: number;
 
-  @Column({})
+  @Column()
   total: number;
 }

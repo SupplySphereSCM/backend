@@ -1,4 +1,3 @@
-import { ProductList } from 'src/modules/invoice/entities/invoice.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -8,8 +7,10 @@ export enum STATUS {
   TRANSIT = 'TRANSIT',
   DELIVERED = 'DELIVERED',
 }
+
+@Entity()
 export class Order {
-  @Column({})
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({
@@ -28,6 +29,6 @@ export class Order {
   @ManyToOne(() => Product, (product) => product)
   product: Product;
 
-  @Column({})
+  @Column()
   total: number;
 }

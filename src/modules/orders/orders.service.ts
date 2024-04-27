@@ -4,36 +4,39 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductsService } from '../products/products.service';
+import { QueryObjectDto } from 'src/common/dto/query.dto';
+import { ApiFeatures } from 'src/utils/api-features';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
-    private productService: ProductsService,
   ) {}
   async create(createOrderDto: CreateOrderDto, buyer: any) {
     const randomNumber = Math.floor(Math.random() * 1000000);
 
     const Orderid = randomNumber.toString();
     const { products } = createOrderDto;
-    const orders = await Promise.all(products.map(async(product) => {
-      const order = await this.orderRepository.create();
-      order.id = Orderid;
-      order.product = product;
-      order.from = buyer;
-      order.to = product.user;
-      order.total = createOrderDto.total;
-      await this.orderRepository.save(order);
-      return order;
-    }));
+    const orders = await Promise.all(
+      products.map(async (product) => {
+        const order = await this.orderRepository.create();
+        order.id = Orderid;
+        order.product = product;
+        order.from = buyer;
+        order.to = product.user;
+        order.total = createOrderDto.total;
+        await this.orderRepository.save(order);
+        return order;
+      }),
+    );
     // order.to =
 
     return orders;
   }
 
-  findAll() {
-    return this.orderRepository.find();
+  findAll(query?: QueryObjectDto) {
+    let orders = new ApiFeatures(this.orderRepository, query).findAll();
+    return orders;
   }
 
   findOne(id: string) {

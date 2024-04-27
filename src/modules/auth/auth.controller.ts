@@ -1,24 +1,22 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 
-import { EmailLoginDto } from './dto/email-login-user.dto';
-import { EmailRegisterDto } from './dto/email-register-user.dto';
 import { RequestNonceDto } from './dto/request-nonce.dto';
+import { EmailLoginDto } from './dto/email-login-user.dto';
 import { verifySignatureDto } from './dto/verify-signature.dto';
-import { UsersService } from '../users/users.service';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { EmailRegisterDto } from './dto/email-register-user.dto';
+
 import { Public } from 'src/common/decorators/public-api.decorator';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+
 import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   // @Get('google')
   // async getGoogleAuthUrl(@Res() res: Response) {
@@ -35,23 +33,13 @@ export class AuthController {
   @Post('register')
   @Public()
   async register(@Body() emailRegisterDto: EmailRegisterDto) {
-    const accessToken = await this.authService.register(emailRegisterDto);
-    const user = await this.userService.findByEmail(emailRegisterDto.email);
-    return {
-      accessToken,
-      user,
-    };
+    return this.authService.register(emailRegisterDto);
   }
 
   @Post('login')
   @Public()
   async login(@Body() emailLoginDto: EmailLoginDto) {
-    const accessToken = await this.authService.login(emailLoginDto);
-    const user = await this.userService.findByEmail(emailLoginDto.email);
-    return {
-      accessToken,
-      user,
-    };
+    return this.authService.login(emailLoginDto);
   }
 
   @Post('request-nonce')
@@ -62,7 +50,7 @@ export class AuthController {
 
   @Get('me')
   async me(@CurrentUser() user: User) {
-    console.log(user);
+    delete user.password;
     return user;
   }
 
@@ -70,5 +58,11 @@ export class AuthController {
   @Public()
   async verifySignature(@Body() verifysignaturedto: verifySignatureDto) {
     return this.authService.verifySignature(verifysignaturedto);
+  }
+
+  @Delete()
+  async deleteUser(@CurrentUser() user: User) {
+    await this.authService.deleteUser(user.id);
+    return null;
   }
 }
