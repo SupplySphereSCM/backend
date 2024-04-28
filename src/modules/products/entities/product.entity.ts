@@ -26,6 +26,9 @@ export class Product {
   @Column({ default: 0 })
   quantity: number;
 
+  @Column({ default: 0 })
+  available: number;
+
   @Column()
   price: number;
 

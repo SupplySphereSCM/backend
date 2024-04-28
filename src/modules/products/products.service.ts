@@ -5,7 +5,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { User } from '../users/entities/user.entity';
-import { UsersService } from '../users/users.service';
 import { QueryObjectDto } from 'src/common/dto/query.dto';
 import { ApiFeatures } from 'src/utils/api-features';
 
@@ -13,15 +12,14 @@ import { ApiFeatures } from 'src/utils/api-features';
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepository: Repository<Product>,
-    private userService: UsersService,
   ) {}
-  async create(createProductDto: CreateProductDto, user: any) {
-    const newProduct = this.productRepository.create(createProductDto);
-    // newProduct.images = images;
-    const cu = await this.userService.findOne(user.id);
-    newProduct.user = cu;
-    this.productRepository.save(newProduct);
-
+  async create(createProductDto: CreateProductDto, user: User) {
+    const newProduct = this.productRepository.create({
+      ...createProductDto,
+      available: createProductDto.quantity,
+    });
+    newProduct.user = user;
+    await this.productRepository.save(newProduct);
     return newProduct;
   }
 
@@ -32,8 +30,6 @@ export class ProductsService {
     ).findAll();
 
     return filteredProducts;
-    // const products = this.productRepository.find();
-    // return products;
   }
 
   async findOne(id: string) {
