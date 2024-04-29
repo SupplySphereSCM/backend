@@ -5,9 +5,11 @@ import {
   Entity,
   JoinTable,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { SupplyChainSteps } from './supply-chain-steps.entity';
 
 @Entity()
 export class SupplyChain {
@@ -19,6 +21,10 @@ export class SupplyChain {
 
   @Column()
   description: string;
+
+
+  @OneToMany(() => SupplyChainSteps,(supplychainsteps)=> supplychainsteps.supplyChain)
+  steps: SupplyChainSteps[];
 
   @ManyToOne(() => User, (user) => user.supplyChains)
   @JoinTable()
