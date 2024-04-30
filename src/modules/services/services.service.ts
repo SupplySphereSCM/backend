@@ -22,7 +22,7 @@ export class ServicesService {
 
   async findAll(query: QueryObjectDto) {
     const filteredServices = new ApiFeatures(this.serviceRepository, query)
-      .findAll;
+      .findAll();
     return filteredServices;
   }
 
