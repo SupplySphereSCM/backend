@@ -3,6 +3,7 @@ import { Order } from 'src/modules/orders/entities/order.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
+import { TransporterService } from 'src/modules/services/entities/transporterService.entity';
 import { SupplyChainSteps } from 'src/modules/supply-chain/entities/supply-chain-steps.entity';
 import { SupplyChain } from 'src/modules/supply-chain/entities/supply-chain.entity';
 
@@ -72,7 +73,7 @@ export class User {
   products: Product[];
 
   @OneToMany(() => Service, (service) => service.user)
-  services: Service[];
+  services: Service[]|TransporterService[];
 
   @OneToMany(() => RawMaterial, (rawMaterials) => rawMaterials.user)
   materials: RawMaterial[];
