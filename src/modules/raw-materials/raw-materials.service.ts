@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRawMaterialDto } from './dto/create-raw-material.dto';
 import { UpdateRawMaterialDto } from './dto/update-raw-material.dto';
+import { User } from '../users/entities/user.entity';
+import { QueryObjectDto } from 'src/common/dto/query.dto';
+import { RawMaterial } from './entities/raw-material.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ApiFeatures } from 'src/utils/api-features';
 
 @Injectable()
 export class RawMaterialsService {
-  create(createRawMaterialDto: CreateRawMaterialDto) {
-    return 'This action adds a new rawMaterial';
+
+  constructor(@InjectRepository(RawMaterial) private rawMaterialRepository : Repository<RawMaterial>)
+  {}
+  async create(createRawMaterialDto: CreateRawMaterialDto,user:User) {
+    const newMaterial = await this.rawMaterialRepository.create(createRawMaterialDto)
+    newMaterial.user = user
+    await this.rawMaterialRepository.save(newMaterial)
+    return newMaterial    
   }
 
-  findAll() {
-    return `This action returns all rawMaterials`;
+  async findAll(query:QueryObjectDto) {
+    const filteredMaterials = new ApiFeatures(this.rawMaterialRepository, query)
+      .findAll();
+    return filteredMaterials;
+    
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} rawMaterial`;
+  async findOne(id: string) {
+    const material = await this.rawMaterialRepository.findOne({
+      where:{id}
+    })
+    return material
   }
 
-  update(id: string, updateRawMaterialDto: UpdateRawMaterialDto) {
+  async update(id: string, updateRawMaterialDto: UpdateRawMaterialDto) {
     return `This action updates a #${id} rawMaterial`;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} rawMaterial`;
-  }
+ async  remove(id: string) {
+  const material = await this.rawMaterialRepository.findOne({
+    where:{ id }
+  })
+  return this.rawMaterialRepository.remove(material)
+    
+}
 }
