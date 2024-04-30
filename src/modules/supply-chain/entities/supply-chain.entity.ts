@@ -22,8 +22,10 @@ export class SupplyChain {
   @Column()
   description: string;
 
-
-  @OneToMany(() => SupplyChainSteps,(supplychainsteps)=> supplychainsteps.supplyChain)
+  @OneToMany(
+    () => SupplyChainSteps,
+    (supplychainsteps) => supplychainsteps.supplyChain,
+  )
   steps: SupplyChainSteps[];
 
   @ManyToOne(() => User, (user) => user.supplyChains)

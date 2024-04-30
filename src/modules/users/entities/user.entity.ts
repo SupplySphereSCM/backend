@@ -3,6 +3,7 @@ import { Order } from 'src/modules/orders/entities/order.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
+import { SupplyChainSteps } from 'src/modules/supply-chain/entities/supply-chain-steps.entity';
 import { SupplyChain } from 'src/modules/supply-chain/entities/supply-chain.entity';
 
 import {
@@ -79,8 +80,17 @@ export class User {
   @OneToMany(() => SupplyChain, (supplychains) => supplychains.user)
   supplyChains: SupplyChain[];
 
-  @OneToMany(() => SupplyChain, (supplychains) => supplychains.user)
-  orders: SupplyChain[];
+  @OneToMany(() => Order, (order) => order.from)
+  fromOrders: Order[];
+
+  @OneToMany(() => Order, (order) => order.to)
+  toOrders: Order[];
+
+  @OneToMany(() => SupplyChainSteps, (steps) => steps.from)
+  supplyChainStepsFrom: SupplyChainSteps[];
+  
+  @OneToMany(() => SupplyChainSteps, (steps) => steps.to)
+  supplyChainStepsTo: SupplyChainSteps[];
 
   @Column({
     type: 'enum',
