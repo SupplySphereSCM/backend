@@ -1,13 +1,12 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateServiceDto {
-    @IsString()
-    name:string;
+  @IsString()
+  name: string;
 
-    @IsNumber()
-    hourlyRate:number;
+  @IsNumber()
+  hourlyRate: number;
 
-    @IsString()
-    description:string;
-
+  @IsString()
+  description: string;
 }

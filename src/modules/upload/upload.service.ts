@@ -1,68 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Dropbox, Error, files } from 'dropbox';
+import {
+  S3Client,
+  PutObjectCommand,
+  PutObjectCommandInput,
+} from '@aws-sdk/client-s3';
 
 @Injectable()
 export class UploadService {
-  dropbox: Dropbox;
+  s3: S3Client;
+
   constructor(private configService: ConfigService) {
-    this.dropbox = new Dropbox({
-      clientId: this.configService.get('file.apiKey'),
-      clientSecret: this.configService.get('file.apiSecret'),
-      accessToken: this.configService.get('file.accessToken'),
+    this.s3 = new S3Client({
+      region: this.configService.getOrThrow('file.awsS3Region'),
+      credentials: {
+        accessKeyId: this.configService.getOrThrow('file.apiKey'),
+        secretAccessKey: this.configService.getOrThrow('file.apiSecret'),
+      },
     });
   }
 
   async uploadFile(file: Express.Multer.File): Promise<string> {
-    try {
-      const timestamp = Date.now().toString();
+    const { originalname, buffer } = file;
+    const bucketName = process.env.AWS_S3_BUCKET_NAME; // Ensure your bucket name is correct
+    const params: PutObjectCommandInput = {
+      Bucket: bucketName,
+      Key: `${Date.now().toString()}-${originalname}`,
+      Body: buffer,
+      ACL: 'public-read', // Makes the file publicly readable
+    };
 
-      const path = `/${timestamp}-${file.originalname}`;
-      // Upload file to Dropbox
-      await this.dropbox.filesUpload({
-        path,
-        contents: file.buffer,
-        mode: { '.tag': 'overwrite' }, // To handle overwriting or add unique naming logic
-      });
-
-      // Create a shared link
-      const linkResponse =
-        await this.dropbox.sharingCreateSharedLinkWithSettings({
-          path,
-        });
-
-      // Replace www with dl to make the link a direct download link
-      return linkResponse.result.url.replace('www', 'dl');
-    } catch (error) {
-      console.error(
-        'Failed to upload or share file:',
-        file.originalname,
-        error,
-      );
-      throw error; // Re-throw to handle the error further up the chain
-    }
+    await this.s3.send(new PutObjectCommand(params));
+    return `https://${bucketName}.s3.amazonaws.com/${params.Key}`;
   }
 
   async uploadFiles(files: Array<Express.Multer.File>): Promise<string[]> {
-    if (files.length === 1) {
-      // Use the same function for single file uploads for consistency
-      return [await this.uploadFile(files[0])];
-    }
-
-    // Map each file to the upload and share function and handle them concurrently
-    const uploadPromises = files.map((file) => this.uploadFile(file));
-    const results = await Promise.allSettled(uploadPromises);
-
-    // Process results to filter out successful uploads and handle errors
-    return results
-      .map((result) => {
-        if (result.status === 'fulfilled') {
-          return result.value;
-        } else {
-          console.error('Error processing file:', result.reason);
-          return null; // or handle differently as needed
-        }
-      })
-      .filter((url) => url !== null); // Filter out any nulls due to errors
+    return Promise.all(files.map((file) => this.uploadFile(file)));
   }
 }

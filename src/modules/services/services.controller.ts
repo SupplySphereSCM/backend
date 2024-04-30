@@ -23,12 +23,15 @@ export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
-  create(@Body() createServiceDto: CreateServiceDto,@CurrentUser() user:User) {
-    return this.servicesService.create(createServiceDto,user);
+  create(
+    @Body() createServiceDto: CreateServiceDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.servicesService.create(createServiceDto, user);
   }
 
   @Get()
-  findAll(@Query() query:QueryObjectDto) {
+  findAll(@Query() query: QueryObjectDto) {
     return this.servicesService.findAll(query);
   }
 

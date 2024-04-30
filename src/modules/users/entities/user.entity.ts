@@ -88,7 +88,7 @@ export class User {
 
   @OneToMany(() => SupplyChainSteps, (steps) => steps.from)
   supplyChainStepsFrom: SupplyChainSteps[];
-  
+
   @OneToMany(() => SupplyChainSteps, (steps) => steps.to)
   supplyChainStepsTo: SupplyChainSteps[];
 
