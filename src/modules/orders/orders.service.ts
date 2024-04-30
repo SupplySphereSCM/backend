@@ -6,13 +6,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QueryObjectDto } from 'src/common/dto/query.dto';
 import { ApiFeatures } from 'src/utils/api-features';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
   ) {}
-  async create(createOrderDto: CreateOrderDto, buyer: any) {
+  async create(createOrderDto: CreateOrderDto, buyer: User) {
     const randomNumber = Math.floor(Math.random() * 1000000);
 
     const Orderid = randomNumber.toString();
