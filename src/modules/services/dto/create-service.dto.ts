@@ -5,8 +5,18 @@ export class CreateServiceDto {
   name: string;
 
   @IsNumber()
-  hourlyRate: number;
+  price: number;
+
+  @IsNumber()
+  quantity:number;
+
+  @IsNumber()
+  volume:number;
+
+  @IsNumber()
+  tax:number;
 
   @IsString()
   description: string;
+
 }

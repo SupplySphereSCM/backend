@@ -21,7 +21,16 @@ export class Service {
   description: string;
 
   @Column()
-  hourlyRate: number;
+  quantity:number;
+
+  @Column()
+  volume:number;
+
+  @Column()
+  price: number;
+
+  @Column()
+  tax:number;
 
   @ManyToOne(() => User, (user) => user.services)
   @JoinTable()
