@@ -27,10 +27,7 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 @ApiTags('products')
 @UseGuards(JwtAuthGuard)
 export class ProductsController {
-  constructor(
-    private readonly productsService: ProductsService,
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly productsService: ProductsService) {}
 
   @Post()
   create(
@@ -47,8 +44,8 @@ export class ProductsController {
   }
 
   @Get('user')
-  findProducts(@CurrentUser() user: any) {
-    return this.userService.findUserProducts(user.id);
+  findProducts(@CurrentUser() user: User) {
+    return this.productsService.findUserProducts(user);
   }
 
   @Get(':id')

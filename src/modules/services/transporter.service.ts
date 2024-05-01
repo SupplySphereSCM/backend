@@ -13,18 +13,27 @@ import { CreateTransporterServiceDto } from './dto/create-transporterservice.dto
 @Injectable()
 export class TransporterServicesService {
   constructor(
-    @InjectRepository(TransporterService) private transporterServiceRepository: Repository<TransporterService>,
+    @InjectRepository(TransporterService)
+    private transporterServiceRepository: Repository<TransporterService>,
   ) {}
-  async create(createTransporterServiceDto: CreateTransporterServiceDto, user: User) {
-    const newService = this.transporterServiceRepository.create(createTransporterServiceDto);
+
+  async create(
+    createTransporterServiceDto: CreateTransporterServiceDto,
+    user: User,
+  ) {
+    const newService = this.transporterServiceRepository.create(
+      createTransporterServiceDto,
+    );
     newService.user = user;
     await this.transporterServiceRepository.save(newService);
     return newService;
   }
 
   async findAll(query: QueryObjectDto) {
-    const filteredServices = new ApiFeatures(this.transporterServiceRepository, query)
-      .findAll();
+    const filteredServices = new ApiFeatures(
+      this.transporterServiceRepository,
+      query,
+    ).findAll();
     return filteredServices;
   }
 

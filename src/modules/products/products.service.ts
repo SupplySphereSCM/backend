@@ -13,6 +13,7 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepository: Repository<Product>,
   ) {}
+
   async create(createProductDto: CreateProductDto, user: User) {
     const newProduct = this.productRepository.create({
       ...createProductDto,
@@ -40,6 +41,12 @@ export class ProductsService {
       throw new NotFoundException(`product not found`);
     }
     return product;
+  }
+
+  async findUserProducts(user: User) {
+    return this.productRepository.findBy({
+      user,
+    });
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {

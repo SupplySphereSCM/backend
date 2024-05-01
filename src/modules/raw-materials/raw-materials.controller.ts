@@ -22,13 +22,21 @@ export class RawMaterialsController {
   constructor(private readonly rawMaterialsService: RawMaterialsService) {}
 
   @Post()
-  create(@Body() createRawMaterialDto: CreateRawMaterialDto,@CurrentUser() user:User) {
-    return this.rawMaterialsService.create(createRawMaterialDto,user);
+  create(
+    @Body() createRawMaterialDto: CreateRawMaterialDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.rawMaterialsService.create(createRawMaterialDto, user);
   }
 
   @Get()
-  findAll(@Query() query:QueryObjectDto) {
+  findAll(@Query() query: QueryObjectDto) {
     return this.rawMaterialsService.findAll(query);
+  }
+
+  @Get('user')
+  findUserMaterials(@CurrentUser() user: User) {
+    return this.rawMaterialsService.findUserMaterials(user);
   }
 
   @Get(':id')

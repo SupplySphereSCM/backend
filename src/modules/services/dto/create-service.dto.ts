@@ -8,15 +8,14 @@ export class CreateServiceDto {
   price: number;
 
   @IsNumber()
-  quantity:number;
+  quantity: number;
 
   @IsNumber()
-  volume:number;
+  volume: number;
 
   @IsNumber()
-  tax:number;
+  tax: number;
 
   @IsString()
   description: string;
-
 }

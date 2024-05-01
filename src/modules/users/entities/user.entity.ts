@@ -73,7 +73,7 @@ export class User {
   products: Product[];
 
   @OneToMany(() => Service, (service) => service.user)
-  services: Service[]|TransporterService[];
+  services: Service[] | TransporterService[];
 
   @OneToMany(() => RawMaterial, (rawMaterials) => rawMaterials.user)
   materials: RawMaterial[];

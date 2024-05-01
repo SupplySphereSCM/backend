@@ -1,25 +1,40 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { CreateTransporterServiceDto } from "./dto/create-transporterservice.dto";
-import { CurrentUser } from "src/common/decorators/current-user.decorator";
-import { User } from "../users/entities/user.entity";
-import { TransporterServicesService } from "./transporter.service";
-import { UpdateServiceDto } from "./dto/update-service.dto";
-import { QueryObjectDto } from "src/common/dto/query.dto";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
+import { User } from '../users/entities/user.entity';
+import { TransporterServicesService } from './transporter.service';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+
+import { QueryObjectDto } from 'src/common/dto/query.dto';
+import { UpdateServiceDto } from './dto/update-service.dto';
+import { CreateTransporterServiceDto } from './dto/create-transporterservice.dto';
 
 @Controller('transporter')
 @ApiTags('Transporter')
 export class TransporterController {
-    constructor(private readonly TransporterService:TransporterServicesService)
-    {}
+  constructor(
+    private readonly TransporterService: TransporterServicesService,
+  ) {}
 
-    @Post()
-    create(@Body() createTransporterServiceDto:CreateTransporterServiceDto,@CurrentUser() user:User){
-        return this.TransporterService.create(createTransporterServiceDto,user)
-        }
+  @Post()
+  create(
+    @Body() createTransporterServiceDto: CreateTransporterServiceDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.TransporterService.create(createTransporterServiceDto, user);
+  }
 
-    @Get()
-  findAll(@Query() query:QueryObjectDto) {
+  @Get()
+  findAll(@Query() query: QueryObjectDto) {
     return this.TransporterService.findAll(query);
   }
 

@@ -20,6 +20,24 @@ export class RawMaterial {
   @Column()
   description: string;
 
+  @Column()
+  subDescription: string;
+
+  @Column('text', { array: true, nullable: true })
+  images: string[];
+
+  @Column()
+  code: string;
+
+  @Column()
+  quantity: number;
+
+  @Column()
+  price: number;
+
+  @Column()
+  tax: number;
+
   @ManyToOne(() => User, (user) => user.materials)
   @JoinTable()
   user: User;

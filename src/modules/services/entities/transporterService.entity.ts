@@ -1,35 +1,39 @@
-import { User } from "src/modules/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from 'src/modules/users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
-export class TransporterService{
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+export class TransporterService {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    name:string;
+  @Column()
+  name: string;
 
-    @Column()
-    description:string;
+  @Column()
+  description: string;
 
-    @Column()
-    priceWithinState:number;
+  @Column()
+  priceWithinState: number;
 
-    @Column()
-    priceInterState:number;
+  @Column()
+  priceInterState: number;
 
-    @Column()
-    priceInternationl:number;
+  @Column()
+  priceInternationl: number;
 
-    @OneToOne(()=> User,(user)=> user)
-    user:User;
+  @OneToOne(() => User, (user) => user)
+  user: User;
 
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
