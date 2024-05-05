@@ -32,6 +32,11 @@ export class RawMaterial {
   @Column()
   quantity: number;
 
+  @Column({
+    default: 0,
+  })
+  available: number;
+
   @Column()
   price: number;
 

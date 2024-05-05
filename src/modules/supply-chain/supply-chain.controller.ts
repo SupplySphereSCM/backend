@@ -13,7 +13,7 @@ import { UpdateSupplyChainDto } from './dto/update-supply-chain.dto';
 
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('supply-chain')
+@Controller('supplychains')
 @ApiTags('Supply Chain')
 export class SupplyChainController {
   constructor(private readonly supplyChainService: SupplyChainService) {}

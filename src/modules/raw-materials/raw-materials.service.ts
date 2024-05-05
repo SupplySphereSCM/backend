@@ -16,8 +16,10 @@ export class RawMaterialsService {
   ) {}
 
   async create(createRawMaterialDto: CreateRawMaterialDto, user: User) {
-    const newMaterial =
-      await this.rawMaterialRepository.create(createRawMaterialDto);
+    const newMaterial = this.rawMaterialRepository.create({
+      ...createRawMaterialDto,
+      available: createRawMaterialDto.quantity,
+    });
     newMaterial.user = user;
     await this.rawMaterialRepository.save(newMaterial);
     return newMaterial;
@@ -47,7 +49,14 @@ export class RawMaterialsService {
   }
 
   async update(id: string, updateRawMaterialDto: UpdateRawMaterialDto) {
-    return `This action updates a #${id} rawMaterial`;
+    const updatedMaterial = await this.rawMaterialRepository.update(
+      {
+        id,
+      },
+      updateRawMaterialDto,
+    );
+
+    return updatedMaterial;
   }
 
   async remove(id: string) {
