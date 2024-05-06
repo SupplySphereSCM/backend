@@ -36,8 +36,8 @@ export class ServicesController {
   }
 
   @Get('user')
-  findUserServices(@CurrentUser() user:User) {
-    return this.servicesService.findUserServices(user)
+  findUserServices(@CurrentUser() user: User) {
+    return this.servicesService.findUserServices(user);
   }
 
   @Get(':id')

@@ -16,7 +16,7 @@ export class RawMaterial {
 
   @Column()
   transactionHash: string;
-  
+
   @Column()
   name: string;
 

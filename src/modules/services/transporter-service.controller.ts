@@ -39,8 +39,8 @@ export class TransporterController {
   }
 
   @Get('user')
-  findUserServices(@CurrentUser() user:User) {
-    return this.TransporterService.findUserServices(user)
+  findUserServices(@CurrentUser() user: User) {
+    return this.TransporterService.findUserServices(user);
   }
 
   @Get(':id')

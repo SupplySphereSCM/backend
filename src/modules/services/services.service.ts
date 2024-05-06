@@ -35,11 +35,11 @@ export class ServicesService {
     return service;
   }
 
-  async findUserServices(user:User) {
+  async findUserServices(user: User) {
     const services = await this.serviceRepository.findBy({
-      user
-    })
-    return services
+      user,
+    });
+    return services;
   }
 
   async update(id: string, updateServiceDto: UpdateServiceDto) {
