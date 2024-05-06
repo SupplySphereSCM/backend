@@ -38,6 +38,11 @@ export class TransporterController {
     return this.TransporterService.findAll(query);
   }
 
+  @Get('user')
+  findUserServices(@CurrentUser() user:User) {
+    return this.TransporterService.findUserServices(user)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.TransporterService.findOne(id);

@@ -44,6 +44,13 @@ export class TransporterServicesService {
     return service;
   }
 
+  async findUserServices(user:User) {
+    const services = await this.transporterServiceRepository.findBy({
+      user
+    })
+    return services
+  } 
+
   async update(id: string, updateServiceDto: UpdateServiceDto) {
     const service = await this.findOne(id);
     Object.assign(service, updateServiceDto);

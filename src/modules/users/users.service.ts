@@ -63,14 +63,5 @@ export class UsersService {
     return this.userRepository.remove(user);
   }
 
-  async findUserProducts(id: string): Promise<Product[]> {
-    const user = await this.userRepository.findOne({
-      where: { id },
-      relations: ['products'],
-    });
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-    return user.products;
-  }
+
 }

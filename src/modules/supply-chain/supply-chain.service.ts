@@ -38,10 +38,11 @@ export class SupplyChainService {
     return `This action updates a #${id} supplyChain`;
   }
 
-  remove(id: string) {
-    return this.supplychainRepo.delete({
-      id,
-      steps: {},
-    });
+  async remove(id: string) {
+    const supplyChain = await this.supplychainRepo.findOne( { where:{id},relations: ['steps'] });
+  if (!supplyChain) {
+    throw new Error(`SupplyChain with id ${id} not found`);
+  }
+  return this.supplychainRepo.remove(supplyChain)
   }
 }
