@@ -14,6 +14,9 @@ export class TransporterService {
   id: string;
 
   @Column()
+  transactionHash: string;
+
+  @Column()
   name: string;
 
   @Column()
