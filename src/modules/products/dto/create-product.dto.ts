@@ -25,4 +25,7 @@ export class CreateProductDto {
 
   @IsNumber()
   tax: number;
+
+  @IsString()
+  transactionHash: string;
 }

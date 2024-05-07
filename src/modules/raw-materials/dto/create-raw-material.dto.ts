@@ -25,4 +25,7 @@ export class CreateRawMaterialDto {
 
   @IsNumber()
   tax: number;
+
+  @IsString()
+  transactionHash: string;
 }

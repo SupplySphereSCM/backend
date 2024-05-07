@@ -18,4 +18,7 @@ export class CreateServiceDto {
 
   @IsString()
   description: string;
+
+  @IsString()
+  transactionHash: string;
 }

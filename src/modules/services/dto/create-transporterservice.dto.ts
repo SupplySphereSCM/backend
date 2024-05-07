@@ -4,6 +4,9 @@ export class CreateTransporterServiceDto {
   @IsString()
   name: string;
 
+  @IsString()
+  transactionHash: string;
+
   @IsNumber()
   priceWithinState: number;
 

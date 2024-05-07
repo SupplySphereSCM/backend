@@ -37,8 +37,12 @@ export class ServicesService {
 
   async findUserServices(user: User) {
     const services = await this.serviceRepository.findBy({
-      user,
+      user: {
+        id: user.id,
+      },
     });
+    console.log(services);
+
     return services;
   }
 
