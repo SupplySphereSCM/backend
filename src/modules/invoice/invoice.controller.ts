@@ -11,6 +11,7 @@ import { InvoiceService } from './invoice.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { QueryObjectDto } from 'src/common/dto/query.dto';
 
 @Controller('invoice')
 @ApiTags('Invoice')
@@ -23,8 +24,8 @@ export class InvoiceController {
   }
 
   @Get()
-  findAll() {
-    return this.invoiceService.findAll();
+  findAll(query?: QueryObjectDto) {
+    return this.invoiceService.findAll(query);
   }
 
   @Get(':id')

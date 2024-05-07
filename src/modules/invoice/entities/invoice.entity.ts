@@ -1,10 +1,11 @@
+import { Order } from 'src/modules/orders/entities/order.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { User } from 'src/modules/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export class ProductList {
   @Column()
-  product: Product;
+  name: string;
 
   @Column()
   quantity: number;
@@ -27,8 +28,23 @@ export class Invoice {
   @ManyToOne(() => User, (user) => user)
   to: User;
 
-  @Column({ type: 'jsonb' })
-  products: ProductList[];
+  // @Column({ type: 'jsonb' })
+  // particulars: ProductList;
+
+  @OneToOne(()=>Order,(order)=>order.invoice)
+  order:Order;
+
+  @Column()
+  name: string;
+
+  @Column()
+  quantity: number;
+
+  @Column()
+  price: number;
+
+  @Column()
+  subaTotal: number;
 
   @Column()
   cgst: number;
