@@ -13,18 +13,28 @@ export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
   ) {}
-  async create(createOrderDto: CreateOrderDto, buyer: User) {
-    const randomNumber = Math.floor(Math.random() * 1000000);
-
-    const Orderid = randomNumber.toString();
-    const { products } = createOrderDto;
+  async create(createOrderDto: CreateOrderDto) {
+    const { ordersList } = createOrderDto;
     const orders = await Promise.all(
-      products.map(async (product) => {
+      ordersList.map(async (orders) => {
         const order = await this.orderRepository.create();
-        order.id = Orderid;
-        order.product = product;
-        order.from = buyer;
-        order.to = product.user;
+        // if(orders.rawMaterial){
+        //   order.rawMaterial = orders.rawMaterial
+        // }
+        // if(orders.product){
+        //   order.product = orders.product
+        // }
+        // if(orders.transport){
+        //   order.transport = orders.transport
+        // }
+        // if(orders.service){
+        //   order.service = orders.service
+        // }
+        
+        
+        order.from = orders.from;
+        order.to = orders.to;
+        // order.orderStatus = orders.orderStatus;
         order.total = createOrderDto.total;
         await this.orderRepository.save(order);
         return order;
@@ -41,7 +51,7 @@ export class OrdersService {
   }
 
   findOne(id: string) {
-    return this.orderRepository.find({ where: { id } });
+    return this.orderRepository.findOne({ where: { id } });
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
