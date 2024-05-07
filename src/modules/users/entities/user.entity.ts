@@ -72,8 +72,11 @@ export class User {
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
 
-  @OneToMany(() => Service, (service) => service.user)
-  services: Service[] | TransporterService[];
+  @OneToMany(() => Service, (service) => service.user,{ nullable: true })
+  services: Service[] ;
+
+  @OneToMany(() => TransporterService,(transport) => transport.user,{ nullable: true })
+  transportService: TransporterService[];
 
   @OneToMany(() => RawMaterial, (rawMaterials) => rawMaterials.user)
   materials: RawMaterial[];
