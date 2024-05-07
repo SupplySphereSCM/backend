@@ -46,7 +46,9 @@ export class TransporterServicesService {
 
   async findUserServices(user: User) {
     const services = await this.transporterServiceRepository.findBy({
-      user,
+      user:{
+        id:user.id,
+      },
     });
     return services;
   }
