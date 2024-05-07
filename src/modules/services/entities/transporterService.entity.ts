@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -32,8 +33,8 @@ export class TransporterService {
   @Column()
   priceInternationl: number;
 
-  @OneToOne(() => User, (user) => user)
-  @JoinTable()
+  @OneToOne(() => User, (user) => user.transportService)
+  @JoinColumn()
   user: User;
 
   @CreateDateColumn()

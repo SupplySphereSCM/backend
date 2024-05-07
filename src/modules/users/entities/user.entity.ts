@@ -14,6 +14,7 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 
 export enum ROLES {
@@ -75,7 +76,7 @@ export class User {
   @OneToMany(() => Service, (service) => service.user,{ nullable: true })
   services: Service[] ;
 
-  @OneToMany(() => TransporterService,(transport) => transport.user,{ nullable: true })
+  @OneToOne(() => TransporterService,(transport) => transport.user,{ nullable: true })
   transportService: TransporterService[];
 
   @OneToMany(() => RawMaterial, (rawMaterials) => rawMaterials.user)
