@@ -34,11 +34,11 @@ export class SupplyChainSteps {
   @JoinColumn()
   to: User;
 
-  @Column()
-  goods : RawMaterial[]|Product[];
+  // @Column()
+  // goods : RawMaterial|Product;
 
-  @Column()
-  services: Service[]|TransporterService[];
+  // @Column()
+  // services: Service|TransporterService;
 
   @Column({
     type: 'enum',

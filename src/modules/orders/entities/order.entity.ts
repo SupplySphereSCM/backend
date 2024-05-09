@@ -17,7 +17,7 @@ export class Order {
   @Column({
     type: 'enum',
     enum: STAGE,
-    default: STAGE.ORDERRECEIVED,
+    default: STAGE,
   })
   orderStatus: STAGE;
 
@@ -27,11 +27,17 @@ export class Order {
   @ManyToOne(() => User, (user) => user.toOrders)
   to: User;
 
-  @Column()
-  goods : RawMaterial[]|Product[];
+  @ManyToOne(() => Product, (product) => product,{nullable:true})
+  product: Product;
 
-  @Column()
-  services: Service[]|TransporterService[];
+  @ManyToOne(() => Service, (service) => service,{nullable:true})
+  service: Service;
+
+  @ManyToOne(() => RawMaterial, (rawMaterial) => rawMaterial,{nullable:true})
+  rawMaterial: RawMaterial;
+
+  @ManyToOne(() => TransporterService, (Service) => Service,{nullable:true})
+  transport: TransporterService;
 
   @Column()
   total: number;
