@@ -12,6 +12,8 @@ import { CreateSupplyChainDto } from './dto/create-supply-chain.dto';
 import { UpdateSupplyChainDto } from './dto/update-supply-chain.dto';
 
 import { ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('supplychains')
 @ApiTags('Supply Chain')
@@ -19,8 +21,8 @@ export class SupplyChainController {
   constructor(private readonly supplyChainService: SupplyChainService) {}
 
   @Post()
-  create(@Body() createSupplyChainDto: CreateSupplyChainDto) {
-    return this.supplyChainService.create(createSupplyChainDto);
+  create(@Body() createSupplyChainDto: CreateSupplyChainDto,@CurrentUser() user:User) {
+    return this.supplyChainService.create(createSupplyChainDto,user);
   }
 
   @Get()

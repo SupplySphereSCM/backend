@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SupplyChain } from './entities/supply-chain.entity';
 import { Repository } from 'typeorm';
 import { SupplyChainSteps } from './entities/supply-chain-steps.entity';
+import { User } from '../users/entities/user.entity';
+import { OrdersService } from '../orders/orders.service';
 
 @Injectable()
 export class SupplyChainService {
@@ -13,10 +15,24 @@ export class SupplyChainService {
     private supplychainRepo: Repository<SupplyChain>,
     @InjectRepository(SupplyChainSteps)
     private supplychainStepRepo: Repository<SupplyChainSteps>,
+    private orderService:OrdersService
   ) {}
 
-  create(createSupplyChainDto: CreateSupplyChainDto) {
-    return 'This action adds a new supplyChain';
+  async create(createSupplyChainDto: CreateSupplyChainDto,user:User) {
+    const supplyChain = await this.supplychainRepo.create()
+    const supplyChainsteps = await Promise.all(createSupplyChainDto.steps.map(async(step)=>{
+      const supplystep = await this.supplychainStepRepo.create(step)
+      await this.supplychainStepRepo.save(supplystep)
+      return supplystep
+
+    }))
+    supplyChain.description=createSupplyChainDto.description
+    supplyChain.name= createSupplyChainDto.name
+    supplyChain.steps=supplyChainsteps
+    supplyChain.user=user
+    return await this.supplychainRepo.save(supplyChain);
+
+    
   }
 
   findAll() {

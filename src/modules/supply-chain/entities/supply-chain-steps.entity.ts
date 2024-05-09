@@ -10,6 +10,7 @@ import { User } from 'src/modules/users/entities/user.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
+import { TransporterService } from 'src/modules/services/entities/transporterService.entity';
 
 export enum STAGE {
   ORDERRECEIVED = 'ORDER RECEIVED',
@@ -33,11 +34,11 @@ export class SupplyChainSteps {
   @JoinColumn()
   to: User;
 
-  // @Column()
-  // goods : RawMaterial[];
+  @Column()
+  goods : RawMaterial[]|Product[];
 
-  // @Column()
-  // services: Service[];
+  @Column()
+  services: Service[]|TransporterService[];
 
   @Column({
     type: 'enum',
