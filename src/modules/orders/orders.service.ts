@@ -17,30 +17,18 @@ export class OrdersService {
     const { ordersList } = createOrderDto;
     const orders = await Promise.all(
       ordersList.map(async (orders) => {
-        const order = await this.orderRepository.create();
-        // if(orders.rawMaterial){
-        //   order.rawMaterial = orders.rawMaterial
-        // }
-        // if(orders.product){
-        //   order.product = orders.product
-        // }
-        // if(orders.transport){
-        //   order.transport = orders.transport
-        // }
-        // if(orders.service){
-        //   order.service = orders.service
-        // }
-        
-        
+        const order = await this.orderRepository.create();        
+        order.services= orders.services;
+        order.goods = orders.goods;
         order.from = orders.from;
         order.to = orders.to;
-        // order.orderStatus = orders.orderStatus;
+        order.orderStatus = orders.orderStatus;
         order.total = createOrderDto.total;
         await this.orderRepository.save(order);
         return order;
       }),
     );
-    // order.to =
+    
 
     return orders;
   }
@@ -60,7 +48,7 @@ export class OrdersService {
 
   async remove(id: string, product: any) {
     const order = await this.orderRepository.find({
-      where: { id, product: product },
+      where: { id },
     });
     return this.orderRepository.remove(order);
   }

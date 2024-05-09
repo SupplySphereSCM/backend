@@ -3,14 +3,11 @@ import { Product } from 'src/modules/products/entities/product.entity';
 import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
 import { TransporterService } from 'src/modules/services/entities/transporterService.entity';
+import { STAGE } from 'src/modules/supply-chain/entities/supply-chain-steps.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum STATUS {
-  ORDERED = 'ORDERED',
-  TRANSIT = 'TRANSIT',
-  DELIVERED = 'DELIVERED',
-}
+
 
 @Entity()
 export class Order {
@@ -19,10 +16,10 @@ export class Order {
 
   @Column({
     type: 'enum',
-    enum: STATUS,
-    default: STATUS.ORDERED,
+    enum: STAGE,
+    default: STAGE.ORDERRECEIVED,
   })
-  orderStatus: STATUS;
+  orderStatus: STAGE;
 
   @ManyToOne(() => User, (user) => user.fromOrders)
   from: User;
@@ -30,17 +27,11 @@ export class Order {
   @ManyToOne(() => User, (user) => user.toOrders)
   to: User;
 
-  @ManyToOne(() => Product, (product) => product,{nullable:true})
-  product: Product;
+  @Column()
+  goods : RawMaterial[]|Product[];
 
-  @ManyToOne(() => Service, (service) => service,{nullable:true})
-  service: Service;
-
-  @ManyToOne(() => RawMaterial, (rawMaterial) => rawMaterial,{nullable:true})
-  rawMaterial: RawMaterial;
-
-  @ManyToOne(() => TransporterService, (Service) => Service,{nullable:true})
-  transport: TransporterService;
+  @Column()
+  services: Service[]|TransporterService[];
 
   @Column()
   total: number;
