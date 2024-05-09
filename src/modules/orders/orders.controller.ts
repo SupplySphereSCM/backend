@@ -23,7 +23,7 @@ export class OrdersController {
 
   @Post()
   create(@Body() createOrderDto: CreateOrderDto, @CurrentUser() buyer: User) {
-    return this.ordersService.create(createOrderDto, buyer);
+    return this.ordersService.create(createOrderDto);
   }
 
   @Get()

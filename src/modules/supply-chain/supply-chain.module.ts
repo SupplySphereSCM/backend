@@ -4,10 +4,11 @@ import { SupplyChainController } from './supply-chain.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SupplyChain } from './entities/supply-chain.entity';
 import { SupplyChainSteps } from './entities/supply-chain-steps.entity';
+import { OrdersModule } from '../orders/orders.module';
 
 @Module({
   controllers: [SupplyChainController],
   providers: [SupplyChainService],
-  imports: [TypeOrmModule.forFeature([SupplyChain, SupplyChainSteps])],
+  imports: [OrdersModule,TypeOrmModule.forFeature([SupplyChain, SupplyChainSteps])],
 })
 export class SupplyChainModule {}
