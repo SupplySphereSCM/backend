@@ -15,25 +15,14 @@ export class SupplyChainService {
     private supplychainRepo: Repository<SupplyChain>,
     @InjectRepository(SupplyChainSteps)
     private supplychainStepRepo: Repository<SupplyChainSteps>,
-    private orderService:OrdersService
+    // private orderService:OrdersService
   ) {}
 
   async create(createSupplyChainDto: CreateSupplyChainDto,user:User) {
-    const supplyChain = await this.supplychainRepo.create()
-    const supplyChainsteps = await Promise.all(createSupplyChainDto.steps.map(async(step)=>{
-      const supplystep = await this.supplychainStepRepo.create(step)
-      await this.supplychainStepRepo.save(supplystep)
-      return supplystep
-
-    }))
-    supplyChain.description=createSupplyChainDto.description
-    supplyChain.name= createSupplyChainDto.name
-    supplyChain.steps=supplyChainsteps
-    supplyChain.user=user
+    const supplyChain = await this.supplychainRepo.create(createSupplyChainDto)
     return await this.supplychainRepo.save(supplyChain);
-
-    
-  }
+   
+ }
 
   findAll() {
     return this.supplychainRepo.find({

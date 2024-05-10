@@ -14,23 +14,25 @@ export class OrdersService {
     @InjectRepository(Order) private orderRepository: Repository<Order>,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
-    // const { ordersList } = createOrderDto;
-    // const orders = await Promise.all(
-    //   ordersList.map(async (orders) => {
-    //     const order = await this.orderRepository.create();        
-    //     order.service= orders.;
-    //     order.rawMaterial = orders.goods;
-    //     order.from = orders.from;
-    //     order.to = orders.to;
-    //     order.orderStatus = orders.orderStatus;
-    //     order.total = createOrderDto.total;
-    //     await this.orderRepository.save(order);
-    //     return order;
-    //   }),
-    // );
+    const { ordersList } = createOrderDto;
+    const orders = await Promise.all(
+      ordersList.map(async (orders) => {
+        const order = await this.orderRepository.create();        
+        order.product=orders.product;
+        order.rawMaterial= orders.rawMaterial
+        order.service= orders.service;
+        order.transport= orders.transport
+        order.from = orders.from;
+        order.to = orders.to;
+        // order.orderStatus = orders.orderStatus;
+        order.total = createOrderDto.total;
+        await this.orderRepository.save(order);
+        return order;
+      }),
+    );
     
 
-    // return orders;
+    return orders;
   }
 
   findAll(query?: QueryObjectDto) {

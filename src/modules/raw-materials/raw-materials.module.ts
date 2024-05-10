@@ -8,5 +8,6 @@ import { RawMaterial } from './entities/raw-material.entity';
   controllers: [RawMaterialsController],
   providers: [RawMaterialsService],
   imports: [TypeOrmModule.forFeature([RawMaterial])],
+  exports:[RawMaterialsService]
 })
 export class RawMaterialsModule {}

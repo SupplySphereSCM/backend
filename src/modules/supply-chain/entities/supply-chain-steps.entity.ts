@@ -34,11 +34,17 @@ export class SupplyChainSteps {
   @JoinColumn()
   to: User;
 
-  // @Column()
-  // goods : RawMaterial|Product;
+  @ManyToOne(() => Product, (product) => product)
+  product: Product;
 
-  // @Column()
-  // services: Service|TransporterService;
+  @ManyToOne(() => Service, (service) => service)
+  service: Service;
+
+  @ManyToOne(() => RawMaterial, (rawMaterial) => rawMaterial)
+  rawMaterial: RawMaterial;
+
+  @ManyToOne(() => TransporterService, (Service) => Service,{nullable:true})
+  transport: TransporterService;
 
   @Column({
     type: 'enum',
