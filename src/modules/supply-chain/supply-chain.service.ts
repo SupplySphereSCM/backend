@@ -7,6 +7,13 @@ import { Repository } from 'typeorm';
 import { SupplyChainSteps } from './entities/supply-chain-steps.entity';
 import { User } from '../users/entities/user.entity';
 import { OrdersService } from '../orders/orders.service';
+import { RawMaterial } from '../raw-materials/entities/raw-material.entity';
+import { RawMaterialsService } from '../raw-materials/raw-materials.service';
+import { ProductsService } from '../products/products.service';
+import { ServicesService } from '../services/services.service';
+import { TransporterServicesService } from '../services/transporter.service';
+import { UsersService } from '../users/users.service';
+import { SupplyChainStepsService } from './supply-chain-steps.services';
 
 @Injectable()
 export class SupplyChainService {
@@ -15,11 +22,20 @@ export class SupplyChainService {
     private supplychainRepo: Repository<SupplyChain>,
     @InjectRepository(SupplyChainSteps)
     private supplychainStepRepo: Repository<SupplyChainSteps>,
+    private stepsRepo:SupplyChainStepsService
+
     // private orderService:OrdersService
   ) {}
 
   async create(createSupplyChainDto: CreateSupplyChainDto,user:User) {
-    const supplyChain = await this.supplychainRepo.create(createSupplyChainDto)
+    
+    
+    const {steps,description,name} = createSupplyChainDto
+    const supplySteps = await Promise.all(steps.map(async(step)=>{
+      return await this.stepsRepo.create(step)
+    }))
+    const supplyChain = await this.supplychainRepo.create({name,description,steps:supplySteps})
+      
     return await this.supplychainRepo.save(supplyChain);
    
  }
