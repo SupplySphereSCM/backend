@@ -34,10 +34,8 @@ export class RawMaterialsService {
   }
 
   async findAll(query: QueryObjectDto) {
-    const filteredMaterials = new ApiFeatures(
-      this.rawMaterialRepository,
-      query,
-    ).findAll();
+    const filteredMaterials =  await this.rawMaterialRepository.find({relations:['user']})
+     
     return filteredMaterials;
   }
 

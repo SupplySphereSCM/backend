@@ -24,11 +24,9 @@ export class ProductsService {
     return newProduct;
   }
 
-  findAll(query: QueryObjectDto) {
-    const filteredProducts = new ApiFeatures(
-      this.productRepository,
-      query,
-    ).findAll();
+  async findAll(query: QueryObjectDto) {
+    const filteredProducts = await this.productRepository.find({relations:['user']})
+      
 
     return filteredProducts;
   }

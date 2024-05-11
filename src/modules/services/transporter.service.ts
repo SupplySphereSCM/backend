@@ -30,10 +30,8 @@ export class TransporterServicesService {
   }
 
   async findAll(query: QueryObjectDto) {
-    const filteredServices = new ApiFeatures(
-      this.transporterServiceRepository,
-      query,
-    ).findAll();
+    const filteredServices =await this.transporterServiceRepository.find({relations:['user']})
+     
     return filteredServices;
   }
 
