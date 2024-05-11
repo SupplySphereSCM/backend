@@ -36,7 +36,7 @@ export class RawMaterialsService {
   async findAll(query: QueryObjectDto) {
     const filteredMaterials =  await this.rawMaterialRepository.find({relations:['user']})
      
-    return filteredMaterials;
+    return {data:filteredMaterials};
   }
 
   async findOne(id: string) {

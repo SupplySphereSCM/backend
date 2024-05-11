@@ -28,7 +28,7 @@ export class ProductsService {
     const filteredProducts = await this.productRepository.find({relations:['user']})
       
 
-    return filteredProducts;
+    return {data:filteredProducts};
   }
 
   async findOne(id: string) {
