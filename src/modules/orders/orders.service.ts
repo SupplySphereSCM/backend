@@ -53,6 +53,11 @@ export class OrdersService {
     return this.orderRepository.findOne({ where: { id } });
   }
 
+  async findUserOrders(user:User){
+    const filterdOrders = await this.orderRepository.find({where:{from:user},relations:['to','rawmaterial','service','via']})
+    return filterdOrders
+  }
+
   update(id: string, updateOrderDto: UpdateOrderDto) {
     return `This action updates a #${id} order`;
   }
