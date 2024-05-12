@@ -70,11 +70,18 @@ export class SupplyChainService {
   async remove(id: string) {
     const supplyChain = await this.supplychainRepo.findOne({
       where: { id },
-      relations: ['steps'],
+      relations:['steps']
+      
     });
-    if (!supplyChain) {
-      throw new Error(`SupplyChain with id ${id} not found`);
-    }
+    const {steps} = supplyChain
+    // console.log(steps);
+    
+    await Promise.all(steps.map(async(step)=>{
+      const istep = await this.supplychainStepRepo.findOne({where:{id:step.id}})
+      await this.supplychainStepRepo.remove(istep)
+
+    }))
+    
     return this.supplychainRepo.remove(supplyChain);
   }
 }

@@ -25,7 +25,7 @@ export class SupplyChain {
   @OneToMany(
     () => SupplyChainSteps,
     (supplychainsteps) => supplychainsteps.supplyChain,
-    { cascade: true },
+    { cascade: true ,onDelete:'CASCADE'},
   )
   steps: SupplyChainSteps[];
 
