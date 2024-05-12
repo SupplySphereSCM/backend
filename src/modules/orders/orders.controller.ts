@@ -25,7 +25,10 @@ export class OrdersController {
   create(@Body() createOrderDto: CreateOrderDto, @CurrentUser() buyer: User) {
     return this.ordersService.create(createOrderDto);
   }
-
+  @Get('user')
+  findUserOrders(@CurrentUser() user:User){
+    return this.ordersService.findUserOrders(user)
+  }
   @Get()
   findAll(@Query() query: QueryObjectDto) {
     return this.ordersService.findAll(query);
@@ -36,10 +39,7 @@ export class OrdersController {
     return this.ordersService.findOne(id);
   }
 
-  @Get('user')
-  findUserOrders(@CurrentUser() user:User){
-    return this.ordersService.findUserOrders(user)
-  }
+  
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {

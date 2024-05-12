@@ -53,9 +53,10 @@ export class OrdersService {
     return this.orderRepository.findOne({ where: { id } });
   }
 
-  async findUserOrders(user:User){
-    const filterdOrders = await this.orderRepository.find({where:{from:user},relations:['to','rawmaterial','service','via']})
-    return filterdOrders
+  async findUserOrders(user:any){
+    const filteredOrders = await this.orderRepository.find({ where: { from: { id: user.id } } ,relations:['from','to','via']});
+    return filteredOrders
+
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
