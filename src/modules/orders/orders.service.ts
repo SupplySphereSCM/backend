@@ -23,6 +23,7 @@ export class OrdersService {
     newOrder.via = order.transport.user;
     newOrder.from = order.from;
     newOrder.to = order.to;
+    newOrder.quantity= order.quantity;
     if (order.service != null) {
       newOrder.tax = order.service.tax;
       newOrder.total =
@@ -54,7 +55,7 @@ export class OrdersService {
   }
 
   async findUserOrders(user:any){
-    const filteredOrders = await this.orderRepository.find({ where: { from: { id: user.id } } ,relations:['from','to','via']});
+    const filteredOrders = await this.orderRepository.find({ where: { from: { id: user.id } } ,relations:['from','to','via','rawMaterial','service']});
     return filteredOrders
 
   }

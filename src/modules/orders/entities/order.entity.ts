@@ -4,7 +4,7 @@ import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.ent
 import { Service } from 'src/modules/services/entities/service.entity';
 import { TransporterService } from 'src/modules/services/entities/transporterService.entity';
 import { User } from 'src/modules/users/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export enum STATUS {
   ORDERED = 'ORDERED',
@@ -51,9 +51,18 @@ export class Order {
   @Column()
   tax: number;
 
+  @Column({default:1})
+  quantity: number;
+
   @Column()
   deliveryCharges: number;
 
   @OneToOne(()=> Invoice,(invoice)=>invoice)
   invoice : Invoice;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
