@@ -53,7 +53,7 @@ export class OrdersService {
   findOne(id: string) {
     return this.orderRepository.findOne({
       where: { id },
-      relations: ['to', 'via', 'rawMaterial', 'service'],
+      relations: ['to', 'transport', 'rawMaterial', 'service'],
     });
   }
 
