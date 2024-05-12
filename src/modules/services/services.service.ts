@@ -21,8 +21,10 @@ export class ServicesService {
   }
 
   async findAll(query: QueryObjectDto) {
-    const filteredServices = await this.serviceRepository.find({relations:['user']})
-    return {data:filteredServices};
+    const filteredServices = await this.serviceRepository.find({
+      relations: ['user'],
+    });
+    return { data: filteredServices };
   }
 
   async findOne(id: string) {

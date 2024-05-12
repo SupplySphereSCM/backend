@@ -23,7 +23,7 @@ export class OrdersService {
     newOrder.via = order.transport.user;
     newOrder.from = order.from;
     newOrder.to = order.to;
-    newOrder.quantity= order.quantity;
+    newOrder.quantity = order.quantity;
     if (order.service != null) {
       newOrder.tax = order.service.tax;
       newOrder.total =
@@ -51,13 +51,18 @@ export class OrdersService {
   }
 
   findOne(id: string) {
-    return this.orderRepository.findOne({ where: { id } });
+    return this.orderRepository.findOne({
+      where: { id },
+      relations: ['to', 'via', 'rawMaterial', 'service'],
+    });
   }
 
-  async findUserOrders(user:any){
-    const filteredOrders = await this.orderRepository.find({ where: { from: { id: user.id } } ,relations:['from','to','via','rawMaterial','service']});
-    return filteredOrders
-
+  async findUserOrders(user: any) {
+    const filteredOrders = await this.orderRepository.find({
+      where: { from: { id: user.id } },
+      relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
+    });
+    return filteredOrders;
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
