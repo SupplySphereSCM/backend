@@ -38,6 +38,7 @@ export class TransporterServicesService {
   async findOne(id: string) {
     const service = await this.transporterServiceRepository.findOne({
       where: { id },
+      
     });
     return service;
   }

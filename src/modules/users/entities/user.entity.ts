@@ -50,6 +50,13 @@ export class User {
   })
   password: string;
 
+  @Column({nullable: true})
+  address : string[];
+
+  @Column({nullable: true})
+  phoneNumber: number;
+
+
   @Column({
     default: false,
   })
