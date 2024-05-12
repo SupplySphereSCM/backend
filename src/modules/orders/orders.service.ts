@@ -23,7 +23,13 @@ export class OrdersService {
         newOrder.via=order.transport.user
         newOrder.from = order.from;
         newOrder.to = order.to;
-        newOrder.total = (order.service?.price*order.quantity)+(order.rawMaterial?.price*order.quantity)+order.transport.priceWithinState;
+        if(order.service!=null){
+          newOrder.total = (order.service?.price*order.quantity)+order.transport.priceWithinState;
+        }else{
+          newOrder.total = (order.rawMaterial?.price*order.quantity)+order.transport.priceWithinState;
+
+        }
+        
         newOrder.deliveryCharges=order.transport.priceWithinState
         // order.orderStatus = orders.orderStatus;
         // newOrder.total= createOrderDto.total;
