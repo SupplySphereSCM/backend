@@ -35,14 +35,14 @@ export class SupplyChainStepsService {
         supplyChain.rawMaterial = await this.rawmaterialservice.findOne(createSupplyChainstepsDto.rawMaterial)
         
     }if(createSupplyChainstepsDto.product!=null){
-        supplyChain.product = await this.productService.findOne(createSupplyChainstepsDto.rawMaterial)
+        supplyChain.product = await this.productService.findOne(createSupplyChainstepsDto.product)
         
     }
      if(createSupplyChainstepsDto.service!=null){
-        supplyChain.service = await this.serviceService.findOne(createSupplyChainstepsDto.rawMaterial)
+        supplyChain.service = await this.serviceService.findOne(createSupplyChainstepsDto.service)
         
     } if(createSupplyChainstepsDto.transport!=null){
-        supplyChain.transport = await this.transportService.findOne(createSupplyChainstepsDto.rawMaterial)
+        supplyChain.transport = await this.transportService.findOne(createSupplyChainstepsDto.transport)
     }
     // else{
     //     throw new Error('something went wrong')
