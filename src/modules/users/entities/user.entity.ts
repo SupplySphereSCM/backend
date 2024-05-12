@@ -91,6 +91,9 @@ export class User {
   @OneToMany(() => Order, (order) => order.to)
   toOrders: Order[];
 
+  @OneToMany(()=>Order,(order)=> order)
+  via:Order[];
+
   @OneToMany(() => SupplyChainSteps, (steps) => steps.from)
   supplyChainStepsFrom: SupplyChainSteps[];
 

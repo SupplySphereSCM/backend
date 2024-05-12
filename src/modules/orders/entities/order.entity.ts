@@ -27,23 +27,32 @@ export class Order {
   @ManyToOne(() => User, (user) => user.fromOrders)
   from: User;
 
+  @ManyToOne(() => User,(user) => user.via)
+  via:User;
+
   @ManyToOne(() => User, (user) => user.toOrders)
   to: User;
 
-  @ManyToOne(() => Product, (product) => product,{nullable:true})
+  @ManyToOne(() => Product, (product) => product)
   product: Product;
 
-  @ManyToOne(() => Service, (service) => service,{nullable:true})
+  @ManyToOne(() => Service, (service) => service)
   service: Service;
 
-  @ManyToOne(() => RawMaterial, (rawMaterial) => rawMaterial,{nullable:true})
+  @ManyToOne(() => RawMaterial, (rawMaterial) => rawMaterial)
   rawMaterial: RawMaterial;
 
-  @ManyToOne(() => TransporterService, (Service) => Service,{nullable:true})
+  @ManyToOne(() => TransporterService, (Service) => Service)
   transport: TransporterService;
 
   @Column()
   total: number;
+
+  @Column()
+  tax: number;
+
+  @Column()
+  deliveryCharges: number;
 
   @OneToOne(()=> Invoice,(invoice)=>invoice)
   invoice : Invoice;

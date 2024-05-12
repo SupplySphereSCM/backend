@@ -46,6 +46,9 @@ export class SupplyChainSteps {
   @ManyToOne(() => TransporterService, (Service) => Service,{nullable:true})
   transport: TransporterService;
 
+  @Column({default:1})
+  quantity:number;
+
   @Column({
     type: 'enum',
     enum: STAGE,

@@ -12,4 +12,5 @@ export class CreateSupplyChainStepsDto {
     service:string|null;
     rawMaterial:string|null;
     transport:string|null;
+    quantity:number;
 }

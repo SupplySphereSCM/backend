@@ -34,20 +34,20 @@ export class SupplyChainStepsService {
     if(createSupplyChainstepsDto.rawMaterial!=null){
         supplyChain.rawMaterial = await this.rawmaterialservice.findOne(createSupplyChainstepsDto.rawMaterial)
         
-    }else if(createSupplyChainstepsDto.product!=null){
+    }if(createSupplyChainstepsDto.product!=null){
         supplyChain.product = await this.productService.findOne(createSupplyChainstepsDto.rawMaterial)
         
     }
-    else if(createSupplyChainstepsDto.service!=null){
+     if(createSupplyChainstepsDto.service!=null){
         supplyChain.service = await this.serviceService.findOne(createSupplyChainstepsDto.rawMaterial)
         
-    }else if(createSupplyChainstepsDto.transport!=null){
+    } if(createSupplyChainstepsDto.transport!=null){
         supplyChain.transport = await this.transportService.findOne(createSupplyChainstepsDto.rawMaterial)
     }
-    else{
-        throw new Error('something went wrong')
-    }
-    
+    // else{
+    //     throw new Error('something went wrong')
+    // }
+    supplyChain.quantity=createSupplyChainstepsDto.quantity;
     
     return await this.supplychainStepRepo.save(supplyChain);
  }

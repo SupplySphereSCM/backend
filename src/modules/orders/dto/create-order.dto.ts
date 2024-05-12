@@ -7,9 +7,7 @@ import { SupplyChainSteps } from 'src/modules/supply-chain/entities/supply-chain
 export class CreateOrderDto {
   @IsNotEmpty()
   @IsArray()
-  ordersList: SupplyChainSteps[];
+  order: SupplyChainSteps;
 
-  @IsNotEmpty()
-  @IsNumber()
-  total: number;
+  
 }
