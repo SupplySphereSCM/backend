@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsEmpty,
   IsEnum,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -31,6 +32,12 @@ export class CreateUserDto {
 
   @IsString()
   ethAddress?: string;
+
+  @IsString()
+  address?: string;
+
+  @IsString()
+  phoneNumber?: string;
 
   @IsEmail()
   email: string;

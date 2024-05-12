@@ -30,23 +30,25 @@ export class TransporterServicesService {
   }
 
   async findAll(query: QueryObjectDto) {
-    const filteredServices =await this.transporterServiceRepository.find({relations:['user']})
-     
-    return {data:filteredServices};
+    const filteredServices = await this.transporterServiceRepository.find({
+      relations: ['user'],
+    });
+
+    return { data: filteredServices };
   }
 
   async findOne(id: string) {
     const service = await this.transporterServiceRepository.findOne({
       where: { id },
-      
+      relations: ['user'],
     });
     return service;
   }
 
   async findUserServices(user: User) {
     const services = await this.transporterServiceRepository.findBy({
-      user:{
-        id:user.id,
+      user: {
+        id: user.id,
       },
     });
     return services;

@@ -50,12 +50,11 @@ export class User {
   })
   password: string;
 
-  @Column({nullable: true})
-  address : string[];
+  @Column({ nullable: true })
+  address: string;
 
-  @Column({nullable: true})
-  phoneNumber: number;
-
+  @Column({ nullable: true })
+  phoneNumber: string;
 
   @Column({
     default: false,
@@ -80,10 +79,12 @@ export class User {
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
 
-  @OneToMany(() => Service, (service) => service.user,{ nullable: true })
-  services: Service[] ;
+  @OneToMany(() => Service, (service) => service.user, { nullable: true })
+  services: Service[];
 
-  @OneToOne(() => TransporterService,(transport) => transport.user,{ nullable: true })
+  @OneToOne(() => TransporterService, (transport) => transport.user, {
+    nullable: true,
+  })
   transportService: TransporterService[];
 
   @OneToMany(() => RawMaterial, (rawMaterials) => rawMaterials.user)
@@ -98,8 +99,8 @@ export class User {
   @OneToMany(() => Order, (order) => order.to)
   toOrders: Order[];
 
-  @OneToMany(()=>Order,(order)=> order)
-  via:Order[];
+  @OneToMany(() => Order, (order) => order)
+  via: Order[];
 
   @OneToMany(() => SupplyChainSteps, (steps) => steps.from)
   supplyChainStepsFrom: SupplyChainSteps[];

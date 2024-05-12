@@ -15,32 +15,37 @@ export class OrdersService {
   ) {}
   async create(createOrderDto: CreateOrderDto) {
     const { order } = createOrderDto;
-        const newOrder = await this.orderRepository.create();        
-        newOrder.product=order.product;
-        newOrder.rawMaterial= order.rawMaterial
-        newOrder.service= order.service;
-        newOrder.transport= order.transport
-        newOrder.via=order.transport.user
-        newOrder.from = order.from;
-        newOrder.to = order.to;
-        if(order.service!=null){
-          newOrder.total = (order.service?.price*order.quantity)+order.transport.priceWithinState;
-        }else{
-          newOrder.total = (order.rawMaterial?.price*order.quantity)+order.transport.priceWithinState;
+    const newOrder = await this.orderRepository.create();
+    newOrder.product = order.product;
+    newOrder.rawMaterial = order.rawMaterial;
+    newOrder.service = order.service;
+    newOrder.transport = order.transport;
+    newOrder.via = order.transport.user;
+    newOrder.from = order.from;
+    newOrder.to = order.to;
+    if (order.service != null) {
+      newOrder.tax = order.service.tax;
+      newOrder.total =
+        order.service?.price * order.quantity +
+        order.transport.priceWithinState;
+    } else {
+      newOrder.tax = order.rawMaterial.tax;
+      newOrder.total =
+        order.rawMaterial?.price * order.quantity +
+        order.transport.priceWithinState;
+    }
 
-        }
-        
-        newOrder.deliveryCharges=order.transport.priceWithinState
-        // order.orderStatus = orders.orderStatus;
-        // newOrder.total= createOrderDto.total;
-        await this.orderRepository.save(newOrder);
-        return newOrder;
-     
-
+    newOrder.deliveryCharges = order.transport.priceWithinState;
+    // order.orderStatus = orders.orderStatus;
+    // newOrder.total= createOrderDto.total;
+    await this.orderRepository.save(newOrder);
+    return newOrder;
   }
 
-  findAll(query?: QueryObjectDto) {
-    let orders = new ApiFeatures(this.orderRepository, query).findAll();
+  async findAll(query?: QueryObjectDto) {
+    let orders = await this.orderRepository.find({
+      relations: ['from', 'to', 'via'],
+    });
     return orders;
   }
 
