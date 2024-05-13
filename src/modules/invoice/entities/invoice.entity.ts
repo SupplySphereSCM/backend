@@ -35,7 +35,10 @@ export class Invoice {
   order:Order;
 
   @Column()
-  name: string;
+  logistics:string;
+
+  @Column()
+  particular: string;
 
   @Column()
   quantity: number;
@@ -44,13 +47,10 @@ export class Invoice {
   price: number;
 
   @Column()
-  subaTotal: number;
+  deliveryCharges :number;
 
   @Column()
-  cgst: number;
-
-  @Column()
-  sgst: number;
+  tax:number
 
   @Column()
   total: number;

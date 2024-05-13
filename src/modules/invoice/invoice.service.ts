@@ -18,25 +18,30 @@ export class InvoiceService {
     
   ) {}
   async create(createInvoiceDto: CreateInvoiceDto) {
-    // const order = await this.orderService.findOne(createInvoiceDto.orderId)
-    // const invoice = new Invoice();
-    // invoice.from = order.from
-    // invoice.to= order.to
-    // if(order.rawMaterial){
-    //       invoice.name = order.rawMaterial.name
-    //     }
-    //     if(order.product){
-    //       invoice.name = order.product.name
-    //     }
-    //     if(order.transport){
-    //       invoice.name = order.transport.name
-    //     }
-    //     if(order.service){
-    //       invoice.name = order.service.name
-    //     }
-    //     invoice.total = order.total
-    //     invoice.order=order
-    //     return this.invoiceRepository.save(invoice)
+    const order = await this.orderService.findOne(createInvoiceDto.orderId)
+    const invoice = await this.invoiceRepository.create();
+    invoice.from = order.from
+    invoice.to= order.to
+    if(order.rawMaterial !=null){
+          invoice.particular = order.rawMaterial.name
+          invoice.price = order.rawMaterial.price
+        }
+        else if(order.product!=null){
+          invoice.particular = order.product.name
+          invoice.price = order.product.price
+        }
+        else{
+          invoice.particular = order.service.name
+          invoice.price = order.service.price
+        }
+
+        invoice.logistics=order.transport.name
+        invoice.deliveryCharges=order.transport.priceWithinState
+        invoice.tax=order.tax
+        invoice.quantity=order.quantity
+        invoice.total = order.total
+        invoice.order=order
+        return this.invoiceRepository.save(invoice)
   }
 
   findAll(query?: QueryObjectDto) {
