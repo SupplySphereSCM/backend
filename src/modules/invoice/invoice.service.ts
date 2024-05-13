@@ -8,6 +8,7 @@ import { Invoice } from './entities/invoice.entity';
 import { ApiFeatures } from 'src/utils/api-features';
 import { Order } from '../orders/entities/order.entity';
 import { OrdersService } from '../orders/orders.service';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class InvoiceService {
@@ -44,14 +45,19 @@ export class InvoiceService {
         return this.invoiceRepository.save(invoice)
   }
 
-  findAll(query?: QueryObjectDto) {
-    let invoices = new ApiFeatures(this.invoiceRepository, query).findAll();
+  async findAll(query?: QueryObjectDto) {
+    let invoices = await this.invoiceRepository.find({relations:['from','to','order']});
     return invoices;
     
   }
 
   findOne(id: string) {
-    return this.invoiceRepository.findOne({where:{id}});
+    return this.invoiceRepository.findOne({where:{id},relations:['from','to','order']});
+  }
+
+   async findUserInvoice(user:User){
+    let invoices = await this.invoiceRepository.find({ where:{from:{id:user.id}},relations:['from','to','order']});
+    return invoices;
   }
 
   update(id: string, updateInvoiceDto: UpdateInvoiceDto) {

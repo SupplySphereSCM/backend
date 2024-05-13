@@ -12,15 +12,26 @@ import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { QueryObjectDto } from 'src/common/dto/query.dto';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('invoice')
 @ApiTags('Invoice')
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
+ 
+
+
   @Post()
   create(@Body() createInvoiceDto: CreateInvoiceDto) {
     return this.invoiceService.create(createInvoiceDto);
+  }
+
+  @Get('user')
+  findUser(@CurrentUser() user:User){
+    return this.invoiceService.findUserInvoice(user)
+
   }
 
   @Get()
