@@ -39,6 +39,7 @@ export class OrdersService {
     newOrder.deliveryCharges = order.transport.priceWithinState;
     // order.orderStatus = orders.orderStatus;
     // newOrder.total= createOrderDto.total;
+    newOrder.stepType = order.stepType;
     await this.orderRepository.save(newOrder);
     return newOrder;
   }

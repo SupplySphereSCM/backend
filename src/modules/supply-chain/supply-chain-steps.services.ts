@@ -48,6 +48,7 @@ export class SupplyChainStepsService {
     //     throw new Error('something went wrong')
     // }
     supplyChain.quantity=createSupplyChainstepsDto.quantity;
+    supplyChain.stepType= createSupplyChainstepsDto.stepType
     
     return await this.supplychainStepRepo.save(supplyChain);
  }

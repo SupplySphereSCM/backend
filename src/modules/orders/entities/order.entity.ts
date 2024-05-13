@@ -12,6 +12,11 @@ export enum STATUS {
   DELIVERED = 'DELIVERED',
 }
 
+export enum STEPTYPE {
+  PROCURING = 'PROCURING',
+  SERVICING = 'SERVICING'
+}
+
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn('uuid')
@@ -44,6 +49,11 @@ export class Order {
 
   @ManyToOne(() => TransporterService, (Service) => Service)
   transport: TransporterService;
+
+  @Column({type:'enum',
+  enum:STEPTYPE,
+default:STEPTYPE.PROCURING})
+stepType: STEPTYPE;
 
   @Column()
   total: number;

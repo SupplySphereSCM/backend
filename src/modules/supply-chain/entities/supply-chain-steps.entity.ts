@@ -11,6 +11,7 @@ import { Product } from 'src/modules/products/entities/product.entity';
 import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
 import { TransporterService } from 'src/modules/services/entities/transporterService.entity';
+import { STEPTYPE } from 'src/modules/orders/entities/order.entity';
 
 export enum STAGE {
   ORDERRECEIVED = 'ORDER RECEIVED',
@@ -48,6 +49,14 @@ export class SupplyChainSteps {
 
   @Column({default:1})
   quantity:number;
+
+  @Column({
+    type:'enum',
+    enum:STEPTYPE,
+    default:STEPTYPE.PROCURING
+
+  })
+  stepType:STEPTYPE;
 
   @Column({
     type: 'enum',

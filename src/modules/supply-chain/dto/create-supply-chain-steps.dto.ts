@@ -1,4 +1,5 @@
 import { IsString } from "class-validator";
+import { STEPTYPE } from "src/modules/orders/entities/order.entity";
 import { Product } from "src/modules/products/entities/product.entity";
 import { RawMaterial } from "src/modules/raw-materials/entities/raw-material.entity";
 import { Service } from "src/modules/services/entities/service.entity";
@@ -12,5 +13,6 @@ export class CreateSupplyChainStepsDto {
     service:string|null;
     rawMaterial:string|null;
     transport:string|null;
+    stepType:STEPTYPE;
     quantity:number;
 }
