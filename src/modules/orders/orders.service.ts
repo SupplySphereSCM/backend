@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
@@ -12,8 +12,9 @@ import { InvoiceService } from '../invoice/invoice.service';
 @Injectable()
 export class OrdersService {
   constructor(
+   
     @InjectRepository(Order) private orderRepository: Repository<Order>,
-    private invoiceService:InvoiceService
+    @Inject(forwardRef(()=>InvoiceService))private invoiceService:InvoiceService
 
   ) {}
   async create(createOrderDto: CreateOrderDto) {
