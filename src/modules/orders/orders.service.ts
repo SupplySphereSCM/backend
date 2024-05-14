@@ -66,8 +66,11 @@ export class OrdersService {
     return filteredOrders;
   }
 
-  update(id: string, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
+    const updatedOrder = await this.orderRepository.findOne({where:{id}})
+    Object.assign(updatedOrder,updateOrderDto)
+    return await this.orderRepository.save(updatedOrder)
+    
   }
 
   async remove(id: string, product: any) {
