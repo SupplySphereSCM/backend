@@ -41,7 +41,7 @@ export class Invoice {
   // particulars: ProductList;
 
   @OneToOne(() => Order, (order) => order.invoice)
-  @JoinColumn()
+
   order: Order;
 
   @Column()

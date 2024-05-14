@@ -49,7 +49,6 @@ export class OrdersService {
   }
 
   async findAll(query?: QueryObjectDto) {
-    await this.orderRepository.clear();
     let orders = await this.orderRepository.find({
       relations: ['from', 'to', 'via'],
     });

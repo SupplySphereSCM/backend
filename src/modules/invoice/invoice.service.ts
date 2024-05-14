@@ -43,7 +43,6 @@ export class InvoiceService {
   }
 
   async findAll(query?: QueryObjectDto) {
-    await this.invoiceRepository.clear();
     let invoices = await this.invoiceRepository.find({
       relations: ['from', 'to', 'order'],
     });
