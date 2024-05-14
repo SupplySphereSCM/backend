@@ -1,7 +1,16 @@
 import { Order } from 'src/modules/orders/entities/order.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { User } from 'src/modules/users/entities/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export class ProductList {
   @Column()
@@ -31,12 +40,12 @@ export class Invoice {
   // @Column({ type: 'jsonb' })
   // particulars: ProductList;
 
-  @OneToOne(()=>Order,(order)=>order.invoice)
+  @OneToOne(() => Order, (order) => order.invoice)
   @JoinColumn()
-  order:Order;
+  order: Order;
 
   @Column()
-  logistics:string;
+  logistics: string;
 
   @Column()
   particular: string;
@@ -48,10 +57,10 @@ export class Invoice {
   price: number;
 
   @Column()
-  deliveryCharges :number;
+  deliveryCharges: number;
 
   @Column()
-  tax:number
+  tax: number;
 
   @Column()
   total: number;

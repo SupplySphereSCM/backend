@@ -4,7 +4,16 @@ import { RawMaterial } from 'src/modules/raw-materials/entities/raw-material.ent
 import { Service } from 'src/modules/services/entities/service.entity';
 import { TransporterService } from 'src/modules/services/entities/transporterService.entity';
 import { User } from 'src/modules/users/entities/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum STATUS {
   ORDERED = 'ORDERED',
@@ -16,7 +25,7 @@ export enum STATUS {
 
 export enum STEPTYPE {
   PROCURING = 'PROCURING',
-  SERVICING = 'SERVICING'
+  SERVICING = 'SERVICING',
 }
 
 @Entity()
@@ -34,8 +43,8 @@ export class Order {
   @ManyToOne(() => User, (user) => user.fromOrders)
   from: User;
 
-  @ManyToOne(() => User,(user) => user.via)
-  via:User;
+  @ManyToOne(() => User, (user) => user.via)
+  via: User;
 
   @ManyToOne(() => User, (user) => user.toOrders)
   to: User;
@@ -52,10 +61,8 @@ export class Order {
   @ManyToOne(() => TransporterService, (Service) => Service)
   transport: TransporterService;
 
-  @Column({type:'enum',
-  enum:STEPTYPE,
-default:STEPTYPE.PROCURING})
-stepType: STEPTYPE;
+  @Column({ type: 'enum', enum: STEPTYPE, default: STEPTYPE.PROCURING })
+  stepType: STEPTYPE;
 
   @Column()
   total: number;
@@ -63,15 +70,18 @@ stepType: STEPTYPE;
   @Column()
   tax: number;
 
-  @Column({default:1})
+  @Column({ default: 1 })
   quantity: number;
 
   @Column()
   deliveryCharges: number;
 
-  @OneToOne(()=> Invoice,(invoice)=>invoice)
+  @OneToOne(() => Invoice, (invoice) => invoice, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
-  invoice : Invoice;
+  invoice: Invoice;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -12,10 +12,9 @@ import { InvoiceService } from '../invoice/invoice.service';
 @Injectable()
 export class OrdersService {
   constructor(
-   
     @InjectRepository(Order) private orderRepository: Repository<Order>,
-    @Inject(forwardRef(()=>InvoiceService))private invoiceService:InvoiceService
-
+    @Inject(forwardRef(() => InvoiceService))
+    private invoiceService: InvoiceService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
     const { order } = createOrderDto;
@@ -45,11 +44,12 @@ export class OrdersService {
     // newOrder.total= createOrderDto.total;
     newOrder.stepType = order.stepType;
     await this.orderRepository.save(newOrder);
-    await this.invoiceService.create({orderId:newOrder.id})
+    await this.invoiceService.create({ orderId: newOrder.id });
     return newOrder;
   }
 
   async findAll(query?: QueryObjectDto) {
+    await this.orderRepository.clear();
     let orders = await this.orderRepository.find({
       relations: ['from', 'to', 'via'],
     });
@@ -59,31 +59,29 @@ export class OrdersService {
   findOne(id: string) {
     return this.orderRepository.findOne({
       where: { id },
-      relations: ['to', 'transport', 'rawMaterial', 'service'],
+      relations: ['from', 'to', 'transport', 'rawMaterial', 'service'],
     });
   }
 
   async findUserOrders(user: User) {
-    if(user.roles[0] !== 'TRANSPORTER'){
+    if (user.roles[0] !== 'TRANSPORTER') {
       var filteredOrders = await this.orderRepository.find({
-      where: { from: { id: user.id } },
-      relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
-    });
-  }else{
-    var filteredOrders = await this.orderRepository.find({
-      where: { via: { id: user.id } },
-      relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
-    });
-
-  }
+        where: { from: { id: user.id } },
+        relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
+      });
+    } else {
+      var filteredOrders = await this.orderRepository.find({
+        where: { via: { id: user.id } },
+        relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
+      });
+    }
     return filteredOrders;
   }
 
   async update(id: string, updateOrderDto: UpdateOrderDto) {
-    const updatedOrder = await this.orderRepository.findOne({where:{id}})
-    Object.assign(updatedOrder,updateOrderDto)
-    return await this.orderRepository.save(updatedOrder)
-    
+    const updatedOrder = await this.orderRepository.findOne({ where: { id } });
+    Object.assign(updatedOrder, updateOrderDto);
+    return await this.orderRepository.save(updatedOrder);
   }
 
   async remove(id: string, product: any) {
