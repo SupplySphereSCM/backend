@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateOrderDto } from './create-order.dto';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
-import { STATUS } from '../entities/order.entity';
+import { STATUS, STEPTYPE } from '../entities/order.entity';
 
 export class UpdateOrderDto  {
     @IsOptional()
@@ -25,6 +25,6 @@ export class UpdateOrderDto  {
     orderStatus:STATUS;
 
     @IsOptional()
-    @IsEnum(STATUS)
-    stepType:STATUS;
+    @IsEnum(STEPTYPE)
+    stepType:STEPTYPE;
 }

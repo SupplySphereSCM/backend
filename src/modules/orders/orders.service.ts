@@ -7,11 +7,14 @@ import { Repository } from 'typeorm';
 import { QueryObjectDto } from 'src/common/dto/query.dto';
 import { ApiFeatures } from 'src/utils/api-features';
 import { User } from '../users/entities/user.entity';
+import { InvoiceService } from '../invoice/invoice.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
+    private invoiceService:InvoiceService
+
   ) {}
   async create(createOrderDto: CreateOrderDto) {
     const { order } = createOrderDto;
@@ -41,6 +44,7 @@ export class OrdersService {
     // newOrder.total= createOrderDto.total;
     newOrder.stepType = order.stepType;
     await this.orderRepository.save(newOrder);
+    await this.invoiceService.create({orderId:newOrder.id})
     return newOrder;
   }
 
