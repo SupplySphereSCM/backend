@@ -8,7 +8,9 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGenerated
 
 export enum STATUS {
   ORDERED = 'ORDERED',
+  PROCESSING = 'PROCESSING',
   TRANSIT = 'TRANSIT',
+  OFFLOADED = 'OFFLOADED',
   DELIVERED = 'DELIVERED',
 }
 

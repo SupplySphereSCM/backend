@@ -58,11 +58,19 @@ export class OrdersService {
     });
   }
 
-  async findUserOrders(user: any) {
-    const filteredOrders = await this.orderRepository.find({
+  async findUserOrders(user: User) {
+    if(user.roles[0] !== 'TRANSPORTER'){
+      var filteredOrders = await this.orderRepository.find({
       where: { from: { id: user.id } },
       relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
     });
+  }else{
+    var filteredOrders = await this.orderRepository.find({
+      where: { via: { id: user.id } },
+      relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
+    });
+
+  }
     return filteredOrders;
   }
 
