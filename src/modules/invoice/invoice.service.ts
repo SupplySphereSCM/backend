@@ -57,10 +57,17 @@ export class InvoiceService {
   }
 
   async findUserInvoice(user: User) {
-    let invoices = await this.invoiceRepository.find({
+    if(user.roles[0] !== 'TRANSPORTER'){
+      var invoices = await this.invoiceRepository.find({
       where: { from: { id: user.id } },
       relations: ['from', 'to', 'order'],
     });
+  }else{
+    var invoices = await this.invoiceRepository.find({
+      where: { logistics: user.firstName },
+      relations: ['from', 'to', 'order'],
+    });
+  }
     return invoices;
   }
 
