@@ -44,19 +44,18 @@ export class SupplyChainSteps {
   @ManyToOne(() => RawMaterial, (rawMaterial) => rawMaterial)
   rawMaterial: RawMaterial;
 
-  @ManyToOne(() => TransporterService, (Service) => Service,{nullable:true})
+  @ManyToOne(() => TransporterService, (Service) => Service, { nullable: true })
   transport: TransporterService;
 
-  @Column({default:1})
-  quantity:number;
+  @Column({ default: 1 })
+  quantity: number;
 
   @Column({
-    type:'enum',
-    enum:STEPTYPE,
-    default:STEPTYPE.PROCURING
-
+    type: 'enum',
+    enum: STEPTYPE,
+    default: STEPTYPE.PROCURING,
   })
-  stepType:STEPTYPE;
+  stepType: STEPTYPE;
 
   @Column({
     type: 'enum',

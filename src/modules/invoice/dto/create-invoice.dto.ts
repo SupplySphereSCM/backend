@@ -37,5 +37,5 @@ export class CreateInvoiceDto {
   // total: number;
   @IsString()
   @IsNotEmpty()
-  orderId:string;
+  orderId: string;
 }

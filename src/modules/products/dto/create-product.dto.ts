@@ -1,4 +1,10 @@
-import { ArrayNotEmpty, IsArray, IsNumber, IsString } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNumber,
+  IsString,
+  isString,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -28,4 +34,7 @@ export class CreateProductDto {
 
   @IsString()
   transactionHash: string;
+
+  @IsString()
+  eid: string;
 }

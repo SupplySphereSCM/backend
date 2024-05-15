@@ -9,7 +9,10 @@ import { OrdersModule } from '../orders/orders.module';
 @Module({
   controllers: [InvoiceController],
   providers: [InvoiceService],
-  imports: [forwardRef(()=>OrdersModule),TypeOrmModule.forFeature([Invoice])],
-  exports:[InvoiceService]
+  imports: [
+    forwardRef(() => OrdersModule),
+    TypeOrmModule.forFeature([Invoice]),
+  ],
+  exports: [InvoiceService],
 })
 export class InvoiceModule {}

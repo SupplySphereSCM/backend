@@ -13,6 +13,6 @@ import { TransporterService } from './entities/transporterService.entity';
   controllers: [ServicesController, TransporterController],
   providers: [ServicesService, TransporterServicesService],
   imports: [TypeOrmModule.forFeature([Service, TransporterService])],
-  exports:[ServicesService,TransporterServicesService]
+  exports: [ServicesService, TransporterServicesService],
 })
 export class ServicesModule {}

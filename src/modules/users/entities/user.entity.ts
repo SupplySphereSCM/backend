@@ -41,6 +41,16 @@ export class User {
 
   @Column({
     nullable: true,
+  })
+  eid?: string;
+
+  @Column({
+    nullable: true,
+  })
+  transactionHash?: string;
+
+  @Column({
+    nullable: true,
     unique: true,
   })
   email: string;

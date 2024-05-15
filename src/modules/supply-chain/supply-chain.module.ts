@@ -13,8 +13,15 @@ import { ServicesModule } from '../services/services.module';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  controllers: [SupplyChainController,SupplyChainStepsController],
-  providers: [SupplyChainService,SupplyChainStepsService],
-  imports: [ProductsModule,RawMaterialsModule,OrdersModule,ServicesModule,UsersModule,TypeOrmModule.forFeature([SupplyChain, SupplyChainSteps])],
+  controllers: [SupplyChainController, SupplyChainStepsController],
+  providers: [SupplyChainService, SupplyChainStepsService],
+  imports: [
+    ProductsModule,
+    RawMaterialsModule,
+    OrdersModule,
+    ServicesModule,
+    UsersModule,
+    TypeOrmModule.forFeature([SupplyChain, SupplyChainSteps]),
+  ],
 })
 export class SupplyChainModule {}

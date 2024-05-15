@@ -14,8 +14,15 @@ export class Service {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  transactionHash: string;
+  @Column({
+    nullable: true,
+  })
+  eid?: string;
+
+  @Column({
+    nullable: true,
+  })
+  transactionHash?: string;
 
   @Column()
   name: string;

@@ -25,10 +25,11 @@ export class ProductsService {
   }
 
   async findAll(query: QueryObjectDto) {
-    const filteredProducts = await this.productRepository.find({relations:['user']})
-      
+    const filteredProducts = await this.productRepository.find({
+      relations: ['user'],
+    });
 
-    return {data:filteredProducts};
+    return { data: filteredProducts };
   }
 
   async findOne(id: string) {

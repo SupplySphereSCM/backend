@@ -21,8 +21,11 @@ export class SupplyChainController {
   constructor(private readonly supplyChainService: SupplyChainService) {}
 
   @Post()
-  create(@Body() createSupplyChainDto: CreateSupplyChainDto,@CurrentUser() user:User) {
-    return this.supplyChainService.create(createSupplyChainDto,user);
+  create(
+    @Body() createSupplyChainDto: CreateSupplyChainDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.supplyChainService.create(createSupplyChainDto, user);
   }
 
   @Get()

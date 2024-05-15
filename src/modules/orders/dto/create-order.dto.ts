@@ -8,6 +8,4 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsArray()
   order: SupplyChainSteps;
-
-  
 }

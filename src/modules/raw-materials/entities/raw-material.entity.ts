@@ -15,9 +15,6 @@ export class RawMaterial {
   id: string;
 
   @Column()
-  transactionHash: string;
-
-  @Column()
   name: string;
 
   @Column()
@@ -45,6 +42,16 @@ export class RawMaterial {
 
   @Column()
   tax: number;
+
+  @Column({
+    nullable: true,
+  })
+  eid?: string;
+
+  @Column({
+    nullable: true,
+  })
+  transactionHash?: string;
 
   @ManyToOne(() => User, (user) => user.materials)
   @JoinTable()

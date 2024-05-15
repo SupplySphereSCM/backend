@@ -20,18 +20,14 @@ import { User } from '../users/entities/user.entity';
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
- 
-
-
   @Post()
   create(@Body() createInvoiceDto: CreateInvoiceDto) {
     return this.invoiceService.create(createInvoiceDto);
   }
 
   @Get('user')
-  findUser(@CurrentUser() user:User){
-    return this.invoiceService.findUserInvoice(user)
-
+  findUser(@CurrentUser() user: User) {
+    return this.invoiceService.findUserInvoice(user);
   }
 
   @Get()

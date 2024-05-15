@@ -16,6 +16,16 @@ export class SupplyChain {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({
+    nullable: true,
+  })
+  eid?: string;
+
+  @Column({
+    nullable: true,
+  })
+  transactionHash?: string;
+
   @Column()
   name: string;
 
@@ -25,7 +35,7 @@ export class SupplyChain {
   @OneToMany(
     () => SupplyChainSteps,
     (supplychainsteps) => supplychainsteps.supplyChain,
-    { cascade: true ,onDelete:'CASCADE'},
+    { cascade: true, onDelete: 'CASCADE' },
   )
   steps: SupplyChainSteps[];
 

@@ -21,4 +21,7 @@ export class CreateServiceDto {
 
   @IsString()
   transactionHash: string;
+
+  @IsString()
+  eid: string;
 }

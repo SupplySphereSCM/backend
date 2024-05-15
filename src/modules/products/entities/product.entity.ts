@@ -15,9 +15,6 @@ export class Product {
   id: string;
 
   @Column()
-  transactionHash: string;
-
-  @Column()
   name: string;
 
   @Column()
@@ -40,6 +37,16 @@ export class Product {
 
   @Column('text', { array: true, nullable: true })
   images: string[];
+
+  @Column({
+    nullable: true,
+  })
+  eid?: string;
+
+  @Column({
+    nullable: true,
+  })
+  transactionHash?: string;
 
   @ManyToOne(() => User, (user) => user.products)
   @JoinTable()

@@ -26,8 +26,8 @@ export class OrdersController {
     return this.ordersService.create(createOrderDto);
   }
   @Get('user')
-  findUserOrders(@CurrentUser() user:User){
-    return this.ordersService.findUserOrders(user)
+  findUserOrders(@CurrentUser() user: User) {
+    return this.ordersService.findUserOrders(user);
   }
   @Get()
   findAll(@Query() query: QueryObjectDto) {
@@ -38,8 +38,6 @@ export class OrdersController {
   findOne(@Param('id') id: string) {
     return this.ordersService.findOne(id);
   }
-
-  
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {

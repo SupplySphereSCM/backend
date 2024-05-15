@@ -28,4 +28,7 @@ export class CreateRawMaterialDto {
 
   @IsString()
   transactionHash: string;
+
+  @IsString()
+  eid: string;
 }

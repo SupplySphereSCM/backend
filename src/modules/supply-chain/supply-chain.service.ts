@@ -28,7 +28,7 @@ export class SupplyChainService {
   ) {}
 
   async create(createSupplyChainDto: CreateSupplyChainDto, user: User) {
-    const { steps, description, name } = createSupplyChainDto;
+    const { steps, description, name, transactionHash } = createSupplyChainDto;
     const supplySteps = await Promise.all(
       steps.map(async (step) => {
         return await this.stepsRepo.create(step);
@@ -37,6 +37,7 @@ export class SupplyChainService {
     const supplyChain = await this.supplychainRepo.create({
       name,
       description,
+      transactionHash,
       steps: supplySteps,
     });
     await Promise.all(
@@ -70,18 +71,20 @@ export class SupplyChainService {
   async remove(id: string) {
     const supplyChain = await this.supplychainRepo.findOne({
       where: { id },
-      relations:['steps']
-      
+      relations: ['steps'],
     });
-    const {steps} = supplyChain
+    const { steps } = supplyChain;
     // console.log(steps);
-    
-    await Promise.all(steps.map(async(step)=>{
-      const istep = await this.supplychainStepRepo.findOne({where:{id:step.id}})
-      await this.supplychainStepRepo.remove(istep)
 
-    }))
-    
+    await Promise.all(
+      steps.map(async (step) => {
+        const istep = await this.supplychainStepRepo.findOne({
+          where: { id: step.id },
+        });
+        await this.supplychainStepRepo.remove(istep);
+      }),
+    );
+
     return this.supplychainRepo.remove(supplyChain);
   }
 }
