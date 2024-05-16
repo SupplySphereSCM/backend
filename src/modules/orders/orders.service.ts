@@ -77,6 +77,16 @@ export class OrdersService {
     return filteredOrders;
   }
 
+  async findMyOrders(user: User) {
+   
+      var filteredOrders = await this.orderRepository.find({
+        where: { to: { id: user.id } },
+        relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
+      });
+   
+   
+    return filteredOrders;
+  }
   async update(id: string, updateOrderDto: UpdateOrderDto) {
     const updatedOrder = await this.orderRepository.findOne({ where: { id } });
     Object.assign(updatedOrder, updateOrderDto);

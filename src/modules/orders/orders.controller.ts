@@ -25,6 +25,10 @@ export class OrdersController {
   create(@Body() createOrderDto: CreateOrderDto, @CurrentUser() buyer: User) {
     return this.ordersService.create(createOrderDto);
   }
+  @Get('user/to')
+  findMyOrders(@CurrentUser() user: User) {
+    return this.ordersService.findMyOrders(user);
+  }
   @Get('user')
   findUserOrders(@CurrentUser() user: User) {
     return this.ordersService.findUserOrders(user);
