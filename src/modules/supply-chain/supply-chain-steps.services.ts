@@ -1,3 +1,4 @@
+import { CreateSupplyChainDto } from './dto/create-supply-chain.dto';
 import { Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SupplyChainSteps } from './entities/supply-chain-steps.entity';
@@ -56,6 +57,7 @@ export class SupplyChainStepsService {
     // else{
     //     throw new Error('something went wrong')
     // }
+    supplyChain.eid = createSupplyChainstepsDto.eid;
     supplyChain.quantity = createSupplyChainstepsDto.quantity;
     supplyChain.stepType = createSupplyChainstepsDto.stepType;
 
