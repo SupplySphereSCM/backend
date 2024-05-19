@@ -24,6 +24,11 @@ export class SupplyChainSteps {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({
+    nullable: true,
+  })
+  eid?: string;
+
   @ManyToOne(() => SupplyChain, (supplychain) => supplychain.steps)
   supplyChain: SupplyChain;
 

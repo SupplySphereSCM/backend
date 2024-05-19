@@ -8,6 +8,7 @@ import { User } from 'src/modules/users/entities/user.entity';
 
 export class CreateSupplyChainStepsDto {
   from: string;
+  eid: string;
   to: string;
   product: string | null;
   service: string | null;
