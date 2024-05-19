@@ -76,6 +76,12 @@ export class Order {
   @Column()
   deliveryCharges: number;
 
+  @Column({nullable:true})
+  supplyChainEId: string;
+
+  @Column({nullable:true})
+  stepEid: string;
+
   @OneToOne(() => Invoice, (invoice) => invoice, {
     cascade: true,
     onDelete: 'CASCADE',

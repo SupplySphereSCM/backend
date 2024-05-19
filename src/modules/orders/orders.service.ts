@@ -24,6 +24,8 @@ export class OrdersService {
     newOrder.service = order.service;
     newOrder.transport = order.transport;
     newOrder.via = order.transport.user;
+    newOrder.stepEid = order.eid
+    newOrder.supplyChainEId = createOrderDto.supplyChainEid;
     newOrder.from = order.from;
     newOrder.to = order.to;
     newOrder.quantity = order.quantity;

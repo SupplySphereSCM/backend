@@ -42,7 +42,7 @@ export class SupplyChainService {
     });
     await Promise.all(
       supplySteps.map(
-        async (step) => await this.orderService.create({ order: step }),
+        async (step) => await this.orderService.create({ order: step,supplyChainEid:createSupplyChainDto.eid }),
       ),
     );
 

@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
@@ -8,4 +8,7 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsArray()
   order: SupplyChainSteps;
+
+  @IsString()
+  supplyChainEid:string;
 }
