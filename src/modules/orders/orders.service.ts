@@ -24,7 +24,7 @@ export class OrdersService {
     newOrder.service = order.service;
     newOrder.transport = order.transport;
     newOrder.via = order.transport.user;
-    newOrder.stepEid = order.eid
+    newOrder.stepEid = order.eid;
     newOrder.supplyChainEId = createOrderDto.supplyChainEid;
     newOrder.from = order.from;
     newOrder.to = order.to;
@@ -80,13 +80,11 @@ export class OrdersService {
   }
 
   async findMyOrders(user: User) {
-   
-      var filteredOrders = await this.orderRepository.find({
-        where: { to: { id: user.id } },
-        relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
-      });
-   
-   
+    var filteredOrders = await this.orderRepository.find({
+      where: { to: { id: user.id } },
+      relations: ['from', 'to', 'via', 'rawMaterial', 'service'],
+    });
+
     return filteredOrders;
   }
   async update(id: string, updateOrderDto: UpdateOrderDto) {

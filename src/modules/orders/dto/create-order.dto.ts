@@ -10,5 +10,5 @@ export class CreateOrderDto {
   order: SupplyChainSteps;
 
   @IsString()
-  supplyChainEid:string;
+  supplyChainEid: string;
 }
