@@ -79,7 +79,7 @@ export class SupplyChainService {
   }
 
   findOne(id: string) {
-    return this.supplychainRepo.findOne({where:{id},relations:['steps']
+    return this.supplychainRepo.findOne({where:{id},relations:['steps','steps.from','steps.to']
     });
   }
 
