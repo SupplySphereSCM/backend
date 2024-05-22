@@ -76,10 +76,10 @@ export class Order {
   @Column()
   deliveryCharges: number;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   supplyChainEId: string;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   stepEid: string;
 
   @OneToOne(() => Invoice, (invoice) => invoice, {

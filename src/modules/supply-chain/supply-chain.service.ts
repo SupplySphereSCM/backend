@@ -28,13 +28,18 @@ export class SupplyChainService {
   ) {}
 
   async create(createSupplyChainDto: CreateSupplyChainDto, user: User) {
-    const { steps, description, name, transactionHash } = createSupplyChainDto;
+    // console.log('Createsupplychain dto:', createSupplyChainDto);
+
+    const { eid, steps, description, name, transactionHash } =
+      createSupplyChainDto;
     const supplySteps = await Promise.all(
       steps.map(async (step) => {
-        return await this.stepsRepo.create(step);
+        return await this.stepsRepo.create({ ...step });
       }),
     );
+
     const supplyChain = await this.supplychainRepo.create({
+      eid,
       name,
       description,
       transactionHash,
@@ -42,7 +47,11 @@ export class SupplyChainService {
     });
     await Promise.all(
       supplySteps.map(
-        async (step) => await this.orderService.create({ order: step,supplyChainEid:createSupplyChainDto.eid }),
+        async (step) =>
+          await this.orderService.create({
+            order: step,
+            supplyChainEid: createSupplyChainDto.eid,
+          }),
       ),
     );
 
