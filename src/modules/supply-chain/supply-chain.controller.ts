@@ -30,7 +30,7 @@ export class SupplyChainController {
 
   @Get('user')
   findUser(@CurrentUser() user:User){
-    return this.supplyChainService
+    return this.supplyChainService.finduser(user)
   }
 
 
