@@ -44,7 +44,9 @@ export class ProductsService {
 
   async findUserProducts(user: User) {
     return this.productRepository.findBy({
-      user,
+      user:{
+        id:user.id
+      },
     });
   }
 
