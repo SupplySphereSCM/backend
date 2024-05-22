@@ -28,6 +28,12 @@ export class SupplyChainController {
     return this.supplyChainService.create(createSupplyChainDto, user);
   }
 
+  @Get('user')
+  findUser(@CurrentUser() user:User){
+    return this.supplyChainService
+  }
+
+
   @Get()
   findAll() {
     return this.supplyChainService.findAll();

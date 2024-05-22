@@ -49,6 +49,18 @@ export class SupplyChainService {
     return await this.supplychainRepo.save(supplyChain);
   }
 
+  async finduser(user:User){
+    return await this.supplychainRepo.findBy({
+      user: {
+        id: user.id,
+
+      },
+
+
+    });
+
+  }
+
   findAll() {
     return this.supplychainRepo.find({
       relations: {
