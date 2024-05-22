@@ -14,6 +14,7 @@ import { UpdateSupplyChainDto } from './dto/update-supply-chain.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { Public } from 'src/common/decorators/public-api.decorator';
 
 @Controller('supplychains')
 @ApiTags('Supply Chain')
@@ -29,10 +30,9 @@ export class SupplyChainController {
   }
 
   @Get('user')
-  findUser(@CurrentUser() user:User){
-    return this.supplyChainService.finduser(user)
+  findUser(@CurrentUser() user: User) {
+    return this.supplyChainService.finduser(user);
   }
-
 
   @Get()
   findAll() {
@@ -40,6 +40,7 @@ export class SupplyChainController {
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.supplyChainService.findOne(id);
   }
