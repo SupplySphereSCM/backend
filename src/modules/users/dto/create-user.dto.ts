@@ -45,6 +45,9 @@ export class CreateUserDto {
   @IsString()
   password?: string;
 
+  @IsString()
+  transactionHash?:string;
+
   @IsArray()
   @ArrayNotEmpty()
   @IsEnum(ROLES, { each: true })
