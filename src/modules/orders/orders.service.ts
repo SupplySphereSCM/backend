@@ -27,58 +27,59 @@ export class OrdersService {
     private userService: UsersService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
-   if(createOrderDto.order) {const { order } = createOrderDto;
-    const newOrder = await this.orderRepository.create();
-    newOrder.product = order.product;
-    newOrder.rawMaterial = order.rawMaterial;
-    newOrder.service = order.service;
-    newOrder.transport = order.transport;
-    newOrder.via = order.transport.user;
-    newOrder.stepEid = order.eid;
-    newOrder.supplyChainEId = createOrderDto.supplyChainEid;
-    newOrder.from = order.from;
-    newOrder.to = order.to;
-    newOrder.quantity = order.quantity;
-    if (order.service != null) {
-      newOrder.tax = order.service.tax;
-      newOrder.total =
-        order.service?.price * order.quantity +
-        order.transport.priceWithinState;
+    if (createOrderDto.order) {
+      const { order } = createOrderDto;
+      const newOrder = await this.orderRepository.create();
+      newOrder.product = order.product;
+      newOrder.rawMaterial = order.rawMaterial;
+      newOrder.service = order.service;
+      newOrder.transport = order.transport;
+      newOrder.via = order.transport.user;
+      newOrder.stepEid = order.eid;
+      newOrder.supplyChainEId = createOrderDto.supplyChainEid;
+      newOrder.from = order.from;
+      newOrder.to = order.to;
+      newOrder.quantity = order.quantity;
+      if (order.service != null) {
+        newOrder.tax = order.service.tax;
+        newOrder.total =
+          order.service?.price * order.quantity +
+          order.transport.priceWithinState;
+      } else {
+        newOrder.tax = order.rawMaterial.tax;
+        newOrder.total =
+          order.rawMaterial?.price * order.quantity +
+          order.transport.priceWithinState;
+      }
+
+      newOrder.deliveryCharges = order.transport.priceWithinState;
+      // order.orderStatus = orders.orderStatus;
+      // newOrder.total= createOrderDto.total;
+      newOrder.stepType = order.stepType;
+      await this.orderRepository.save(newOrder);
+      await this.invoiceService.create({ orderId: newOrder.id });
+      return newOrder;
     } else {
-      newOrder.tax = order.rawMaterial.tax;
-      newOrder.total =
-        order.rawMaterial?.price * order.quantity +
-        order.transport.priceWithinState;
-    }
-
-    newOrder.deliveryCharges = order.transport.priceWithinState;
-    // order.orderStatus = orders.orderStatus;
-    // newOrder.total= createOrderDto.total;
-    newOrder.stepType = order.stepType;
-    await this.orderRepository.save(newOrder);
-    await this.invoiceService.create({ orderId: newOrder.id });
-    return newOrder;
-  }else{
-    const from = await this.userService.findOne(createOrderDto.from)
-    const to = await this.userService.findOne(createOrderDto.to)
-    const transport = await this.transportService.findOne(createOrderDto.transport)
-    const product = await this.productService.findOne(createOrderDto.product)
-    const newOrder = await this.orderRepository.create({
-      from,
-      to,
-      via:transport.user,
-      transport,
-      product,
-      total:createOrderDto.total,
-      tax:createOrderDto.tax,
-      quantity:createOrderDto.quantity,
-      deliveryCharges:createOrderDto.deliveryCharges,
-
-    });
-    await this.orderRepository.save(newOrder);
-    await this.invoiceService.create({ orderId: newOrder.id });
-    return newOrder;
-
+      const from = await this.userService.findOne(createOrderDto.from);
+      const to = await this.userService.findOne(createOrderDto.to);
+      const transport = await this.transportService.findOne(
+        createOrderDto.transport,
+      );
+      const product = await this.productService.findOne(createOrderDto.product);
+      const newOrder = await this.orderRepository.create({
+        from,
+        to,
+        via: transport.user,
+        transport,
+        product,
+        total: createOrderDto.total,
+        tax: createOrderDto.tax,
+        quantity: createOrderDto.quantity,
+        deliveryCharges: createOrderDto.deliveryCharges,
+      });
+      await this.orderRepository.save(newOrder);
+      // await this.invoiceService.create({ orderId: newOrder.id });
+      return newOrder;
     }
   }
 

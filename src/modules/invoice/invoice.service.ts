@@ -28,7 +28,7 @@ export class InvoiceService {
     } else if (order.product != null) {
       invoice.particular = order.product.name;
       invoice.price = order.product.price;
-    } else {
+    } else if (order.service != null) {
       invoice.particular = order.service.name;
       invoice.price = order.service.price;
     }

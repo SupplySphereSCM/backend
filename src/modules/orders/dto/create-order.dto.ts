@@ -1,44 +1,57 @@
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
 import { SupplyChainSteps } from 'src/modules/supply-chain/entities/supply-chain-steps.entity';
 
 export class CreateOrderDto {
-  @IsNotEmpty()
-  
   @IsArray()
+  @IsOptional()
   order?: SupplyChainSteps;
 
   @IsString()
+  @IsOptional()
   supplyChainEid?: string;
 
   @IsString()
-  from?:string;
+  @IsOptional()
+  from?: string;
 
   @IsString()
-  to?:string;
+  @IsOptional()
+  to?: string;
 
   @IsString()
-  via?:string;
+  @IsOptional()
+  via?: string;
 
   @IsString()
-  product?:string;
+  @IsOptional()
+  product?: string;
 
   @IsString()
-  transport?:string;
+  @IsOptional()
+  transport?: string;
 
   @IsNumber()
-  tax?:number;
+  @IsOptional()
+  tax?: number;
 
   @IsNumber()
-  total?:number;
+  @IsOptional()
+  total?: number;
 
   @IsNumber()
+  @IsOptional()
   deliveryCharges?: number;
 
   @IsNumber()
+  @IsOptional()
   quantity?: number;
-
-
 }
