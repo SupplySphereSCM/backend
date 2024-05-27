@@ -8,6 +8,11 @@ import { QueryObjectDto } from 'src/common/dto/query.dto';
 import { ApiFeatures } from 'src/utils/api-features';
 import { User } from '../users/entities/user.entity';
 import { InvoiceService } from '../invoice/invoice.service';
+import { RawMaterialsService } from '../raw-materials/raw-materials.service';
+import { ProductsService } from '../products/products.service';
+import { ServicesService } from '../services/services.service';
+import { TransporterServicesService } from '../services/transporter.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class OrdersService {
@@ -15,6 +20,11 @@ export class OrdersService {
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @Inject(forwardRef(() => InvoiceService))
     private invoiceService: InvoiceService,
+    private rawmaterialservice: RawMaterialsService,
+    private productService: ProductsService,
+    private serviceService: ServicesService,
+    private transportService: TransporterServicesService,
+    private userService: UsersService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
    if(createOrderDto.order) {const { order } = createOrderDto;
@@ -49,11 +59,16 @@ export class OrdersService {
     await this.invoiceService.create({ orderId: newOrder.id });
     return newOrder;
   }else{
+    const from = await this.userService.findOne(createOrderDto.from)
+    const to = await this.userService.findOne(createOrderDto.to)
+    const transport = await this.transportService.findOne(createOrderDto.transport)
+    const product = await this.productService.findOne(createOrderDto.product)
     const newOrder = await this.orderRepository.create({
-      from:{id:createOrderDto.from},
-      to:{id:createOrderDto.to},
-      via:{id:createOrderDto.transport},
-      product:{id:createOrderDto.product},
+      from,
+      to,
+      via:transport.user,
+      transport,
+      product,
       total:createOrderDto.total,
       tax:createOrderDto.tax,
       quantity:createOrderDto.quantity,
