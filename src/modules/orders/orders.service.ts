@@ -17,7 +17,7 @@ export class OrdersService {
     private invoiceService: InvoiceService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
-    const { order } = createOrderDto;
+   if(createOrderDto.order) {const { order } = createOrderDto;
     const newOrder = await this.orderRepository.create();
     newOrder.product = order.product;
     newOrder.rawMaterial = order.rawMaterial;
@@ -48,6 +48,23 @@ export class OrdersService {
     await this.orderRepository.save(newOrder);
     await this.invoiceService.create({ orderId: newOrder.id });
     return newOrder;
+  }else{
+    const newOrder = await this.orderRepository.create({
+      from:{id:createOrderDto.from},
+      to:{id:createOrderDto.to},
+      via:{id:createOrderDto.transport},
+      product:{id:createOrderDto.product},
+      total:createOrderDto.total,
+      tax:createOrderDto.tax,
+      quantity:createOrderDto.quantity,
+      deliveryCharges:createOrderDto.deliveryCharges,
+
+    });
+    await this.orderRepository.save(newOrder);
+    await this.invoiceService.create({ orderId: newOrder.id });
+    return newOrder;
+
+    }
   }
 
   async findAll(query?: QueryObjectDto) {

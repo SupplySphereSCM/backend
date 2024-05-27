@@ -7,8 +7,37 @@ import { SupplyChainSteps } from 'src/modules/supply-chain/entities/supply-chain
 export class CreateOrderDto {
   @IsNotEmpty()
   @IsArray()
-  order: SupplyChainSteps;
+  order?: SupplyChainSteps;
 
   @IsString()
-  supplyChainEid: string;
+  supplyChainEid?: string;
+
+  @IsString()
+  from?:string;
+
+  @IsString()
+  to?:string;
+
+  @IsString()
+  via?:string;
+
+  @IsString()
+  product?:string;
+
+  @IsString()
+  transport?:string;
+
+  @IsNumber()
+  tax?:number;
+
+  @IsNumber()
+  total?:number;
+
+  @IsNumber()
+  deliveryCharges?: number;
+
+  @IsNumber()
+  quantity?: number;
+
+
 }
