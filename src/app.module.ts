@@ -65,9 +65,10 @@ import { RawMaterialsModule } from './modules/raw-materials/raw-materials.module
         database: config.get<string>('database.name'),
         synchronize: config.get<boolean>('database.synchronize'),
         autoLoadEntities: true,
-        // ssl: {
-        //   rejectUnauthorized: false,
-        // },
+        ssl: {
+          rejectUnauthorized: false,
+          
+        },
       }),
     }),
     AuthModule,
